@@ -8,34 +8,25 @@
       class="el-menu-vertical-demo"
       style="min-height: 100vh"
     >
-      <el-submenu index="1">
-        <template slot="title">
-          <i class="el-icon-data-analysis"></i>
-          <span>Trang Chủ</span>
-        </template>
-        <el-menu-item index="1-1" @click="doHome">Thống kê</el-menu-item>
-        <el-menu-item index="1-2" @click="historyPitch">Lịch sử</el-menu-item>
-      </el-submenu>
+      <el-menu-item index="1" @click="doHome">
+        <i class="el-icon-data-analysis"></i>
+        <span>Trang Chủ</span>
+      </el-menu-item>
       <el-submenu index="2">
         <template slot="title">
-          <i class="el-icon-football"></i>
-          <span>Sân</span>
+          <i class="el-icon-notebook-1"></i>
+          <span>Quản lý đơn phòng</span>
         </template>
-        <el-menu-item index="2-1" @click="doNewPitch">Thêm mới sân</el-menu-item>
-        <el-menu-item index="2-2" @click="managePitch">Quản lý sân</el-menu-item>
-        <el-menu-item index="2-3" @click="orderPitchManagement">Quản lý đặt sân</el-menu-item>
+        <el-menu-item index="2-1">Tạo đơn phòng</el-menu-item>
+        <el-menu-item index="2-2">Lịch sử đơn phòng</el-menu-item>
       </el-submenu>
-      <!-- <el-menu-item index="3" @click="doNotification">
-        <i class="el-icon-s-order"></i>
-        <span>Thêm mới thông báo</span>
-      </el-menu-item> -->
       <el-submenu index="4">
         <template slot="title">
           <i class="el-icon-setting"></i>
           <span>Thông tin chung</span>
         </template>
-        <el-menu-item index="4-0" @click="doProfile">Hồ sơ</el-menu-item>
-        <el-menu-item index="4-1" @click="doChangePassword">Đổi mặt khẩu</el-menu-item>
+        <el-menu-item index="4-0" >Hồ sơ</el-menu-item>
+        <el-menu-item index="4-1" >Đổi mặt khẩu</el-menu-item>
         <el-menu-item index="4-2" @click="doLogout">Đăng xuất</el-menu-item>
       </el-submenu>
     </el-menu>

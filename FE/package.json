@@ -1,7 +1,7 @@
 {
   "name": "hci-admin",
   "version": "1.0.0",
-  "description": "Admin Web for HCI_Project",
+  "description": "FE for motel-manage project.",
   "author": "TuanLM <tuanvipandpro@gmail.com>",
   "private": true,
   "scripts": {

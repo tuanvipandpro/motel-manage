@@ -54,8 +54,7 @@ export default {
       ]
       if (accountList.some(account => account.username === this.formData.username && account.password === this.formData.password)) {
         sessionStorage.setItem('username', this.formData.username)
-        let scrNm = (this.formData.username === 'admin') ? 'AdminHome' : 'Statistic'
-        this.transitTo(scrNm, {username: this.formData.username})
+        this.transitTo('Statistic', {username: this.formData.username})
       } else {
         this.showMessage('Tài khoản hoặc mật khẩu không chính xác !', 'warning')
       }
@@ -107,7 +106,7 @@ export default {
 }
 </script>
 <style>
-    #login-container {
+  #login-container {
       width: 100%;
       height: 100vh;
       background-color: azure;
@@ -116,9 +115,9 @@ export default {
       justify-content: center;
     }
 
-    #login-form {
-        margin-top: 20vh;
-        width: 22vw;
-        height: 50vh;
-    }
+  #login-form {
+      margin-top: 20vh;
+      width: 340px;
+      height: 350px;
+  }
 </style>
