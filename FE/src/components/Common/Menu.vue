@@ -17,16 +17,23 @@
           <i class="el-icon-notebook-1"></i>
           <span>Quản lý đơn phòng</span>
         </template>
-        <el-menu-item index="2-1">Tạo đơn phòng</el-menu-item>
+        <el-menu-item index="2-1" @click="doMakeBill">Tạo đơn phòng</el-menu-item>
         <el-menu-item index="2-2">Lịch sử đơn phòng</el-menu-item>
+      </el-submenu>
+      <el-submenu index="3">
+        <template slot="title">
+          <i class="el-icon-s-custom"></i>
+          <span>Quản lý khách trọ</span>
+        </template>
+        <el-menu-item index="3-1" @click="doCustomerManage">Danh sách khách trọ</el-menu-item>
       </el-submenu>
       <el-submenu index="4">
         <template slot="title">
           <i class="el-icon-setting"></i>
           <span>Thông tin chung</span>
         </template>
-        <el-menu-item index="4-0" >Hồ sơ</el-menu-item>
-        <el-menu-item index="4-1" >Đổi mặt khẩu</el-menu-item>
+        <el-menu-item index="4-0" @click="doProfile">Hồ sơ</el-menu-item>
+        <el-menu-item index="4-1" @click="doChangePassword">Đổi mặt khẩu</el-menu-item>
         <el-menu-item index="4-2" @click="doLogout">Đăng xuất</el-menu-item>
       </el-submenu>
     </el-menu>
@@ -48,35 +55,23 @@ export default {
     /**
      * Go to new pitch page 2-1
      */
-    doNewPitch () {
-      this.transitTo('NewPitch', undefined)
+    doMakeBill () {
+      this.transitTo('MakeBill', undefined)
     },
     /**
      * Go to manage pitch pitch page 2-2
      */
-    managePitch () {
-      this.transitTo('ManagePitch', undefined)
+    doManageBill () {
+      this.transitTo('ManageBill', undefined)
     },
     /**
-     * Go to manage pitch pitch page 2-3
+     * Go to customer-manage page 3-1
      */
-    historyPitch () {
-      this.transitTo('HistoryPitch', undefined)
+    doCustomerManage () {
+      this.transitTo('CustomerManage', undefined)
     },
     /**
-     * Go to manage pitch pitch page 2-3
-     */
-    orderPitchManagement () {
-      this.transitTo('OrderPitchManagement', undefined)
-    },
-    /**
-     * Go to new notification page 3
-     */
-    doNotification () {
-      this.transitTo('Notification', undefined)
-    },
-    /**
-     * Go to new change password page 4-0
+     * Go to new profile page 4-0
      */
     doProfile () {
       this.transitTo('Profile', undefined)

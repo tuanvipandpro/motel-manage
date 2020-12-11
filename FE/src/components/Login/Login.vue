@@ -48,9 +48,7 @@ export default {
      */
     checkLogin () {
       const accountList = [
-        {username: 'leminhtuan', password: '1'},
-        {username: 'dunggla', password: '1'},
-        {username: 'admin', password: '1'}
+        {username: 'leminhtuan', password: '1'}
       ]
       if (accountList.some(account => account.username === this.formData.username && account.password === this.formData.password)) {
         sessionStorage.setItem('username', this.formData.username)
@@ -116,7 +114,7 @@ export default {
     }
 
   #login-form {
-      margin-top: 20vh;
+      margin-top: 22vh;
       width: 340px;
       height: 350px;
   }

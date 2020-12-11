@@ -18,24 +18,22 @@
               <el-card class="box-card" style="margin-left: 2%; margin-top: 1%; width: 38%;" shadow="hover">
                 <div slot="header" class="clearfix">
                   <i class="el-icon-s-data"></i>
-                  <span style="font-size: 20px; font-weight: bold; margin-left: 5px">Đánh giá</span>
+                  <span style="font-size: 20px; font-weight: bold; margin-left: 5px">
+                      Tỉ lệ phòng đang thuê (6/7)
+                  </span>
                 </div>
                 <div>
                   <span style="font-size: 20px; font-weight: bold;">
-                    Điểm yêu thích: 4.8 <i class="el-icon-star-off"></i>
+                      <el-progress :percentage="85" status="success"/>
                   </span>
                 </div>
               </el-card>
           </div>
           <div class="chart-row table-row">
               <el-card class="box-card" style="margin-left: 2%; margin-top: 1%; width: 35%;" shadow="hover">
-                  <line-chart :data="datas[2]" :options="options[2]" style="height: 330px; width: 100%"/>
+                  <bar-chart :data="datas[0]" :options="options[0]" style="width: 100%; height: 330px; "/>
               </el-card>
               <el-card class="box-card" style="margin-left: 2%; margin-top: 1%; width: 58%;" shadow="hover">
-                <!-- <div slot="header" class="clearfix">
-                  <i class="el-icon-s-operation"></i>
-                  <span style="font-size: 18px; font-weight: bold; margin-left: 5px">Bộ lọc</span>
-                </div> -->
                 <template>
                   <el-table :data="tableData" stripe style="width: 100%;" height="300">
                     <el-table-column fixed prop="name" label="Tên"/>
@@ -48,7 +46,7 @@
           </div>
           <div class="chart-row">
               <el-card class="box-card" style="margin-left: 2%; margin-top: 1%; width: 46.5%;" shadow="hover">
-                  <bar-chart :data="datas[0]" :options="options[0]" style="width: 100%; height: 330px; "/>
+                  <line-chart :data="datas[2]" :options="options[2]" style="height: 330px; width: 100%"/>
               </el-card>
               <el-card class="box-card" style="margin-left: 2%; margin-top: 1%; width: 46.5%;" shadow="hover">
                   <pie-chart :data="datas[1]" :options="options[1]" style="width: 100%; height: 330px; "/>
@@ -121,12 +119,12 @@ export default {
       ],
       datas: [
         {
-          labels: ['Sân 5', 'Sân 7', 'Sân 11'],
+          labels: ['Phòng 1', 'Phòng 2', 'Phòng 3', 'Phòng 4', 'Phòng 5', 'Phòng 6', 'Phòng 7'],
           datasets: [
             {
-              label: 'đơn vị (giờ)',
-              backgroundColor: ['#3e95cd', '#8e5ea2', '#3cba9f'],
-              data: [185, 92, 32]
+              label: 'đồng (VNĐ)',
+              backgroundColor: ['#27ae60', '#27ae60', '#27ae60', '#27ae60', '#27ae60', '#27ae60', '#27ae60'],
+              data: [832000, 988000, 951000, 913000, 1142000, 956000, 821000]
             }
           ]
         },
@@ -165,7 +163,7 @@ export default {
         {
           title: {
             display: true,
-            text: 'Thống kê thời gian đặt sân tháng 11/2020'
+            text: 'Thống kê doanh thu theo phòng tháng 11-2020'
           },
           responsive: true,
           maintainAspectRatio: false
