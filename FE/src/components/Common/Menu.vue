@@ -29,12 +29,19 @@
       </el-submenu>
       <el-submenu index="4">
         <template slot="title">
+          <i class="el-icon-office-building"></i>
+          <span>Quản lý phòng trọ</span>
+        </template>
+        <el-menu-item index="4-1">Danh sách phòng trọ</el-menu-item>
+      </el-submenu>
+      <el-submenu index="5">
+        <template slot="title">
           <i class="el-icon-setting"></i>
           <span>Thông tin chung</span>
         </template>
-        <el-menu-item index="4-0" @click="doProfile">Hồ sơ</el-menu-item>
-        <el-menu-item index="4-1" @click="doChangePassword">Đổi mặt khẩu</el-menu-item>
-        <el-menu-item index="4-2" @click="doLogout">Đăng xuất</el-menu-item>
+        <el-menu-item index="5-0" @click="doProfile">Hồ sơ</el-menu-item>
+        <el-menu-item index="5-1" @click="doChangePassword">Đổi mặt khẩu</el-menu-item>
+        <el-menu-item index="5-2" @click="doLogout">Đăng xuất</el-menu-item>
       </el-submenu>
     </el-menu>
   </div>

@@ -34,6 +34,12 @@
                             </el-tag>
                         </template>
                     </el-table-column>
+                    <el-table-column label="Thao tác" fixed="right">
+                        <template slot-scope="scope">
+                          <el-button type="text" v-if="scope.row.status">Active</el-button>
+                          <el-button type="text" v-else>Inactive</el-button>
+                        </template>
+                    </el-table-column>
                 </el-table>
             </el-card>
           </div>
@@ -58,7 +64,17 @@ export default {
           cmnd: '123456789',
           birthday: '01-10-1999',
           gender: true,
-          roomId: 1
+          roomId: 1,
+          status: true
+        },
+        {
+          id: '1',
+          name: 'Lý Thị Cà Chua',
+          cmnd: '123456789',
+          birthday: '02-10-1999',
+          gender: true,
+          roomId: 1,
+          status: false
         }
       ]
     }

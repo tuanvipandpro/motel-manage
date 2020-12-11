@@ -3,7 +3,7 @@
     <el-row style="text-align: left">
       <!-- Menu -->
       <el-col :span='5'>
-        <hci-menu :activeIndex='"4-0"' />
+        <hci-menu :activeIndex='"5-0"' />
       </el-col>
       <!-- Content -->
       <el-col :offset="5" :span="19">
