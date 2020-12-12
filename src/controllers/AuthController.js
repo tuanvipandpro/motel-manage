@@ -8,20 +8,20 @@ module.exports = {
      * @returns access_token
      * @returns user
      */     
-    login: async (req, res) => {
+    login: (req, res) => {
         const body = req.body
 
         if (!body.username || !body.password) {
             res.status(400).json({status: 400, message: 'Bad Request !'})
         } else {
-            try {
-                const result = authService.checkLogin()
-                res.status(data.statusCode).json(result)
-            }
-            catch(e) {
+            authService.checkLogin(body.username, body.password).then(result => {
+                res.status(result.status_code).json(result)
+            })
+            .catch(e => {
                 console.error(e)
                 res.status(500).json({status: 500, message: 'Internal Server Error !'})
-            }
+            })
         }
+        // End
     }
 }

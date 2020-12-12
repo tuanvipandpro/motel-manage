@@ -1,6 +1,6 @@
-const { Client } = require('pg')
+const { Pool } = require('pg')
 
-const con = new Client({
+const con = new Pool({
     user: 'ryqnobggllashp',
     host: 'ec2-54-166-114-48.compute-1.amazonaws.com',
     database: 'd6696gkpumul5k',
