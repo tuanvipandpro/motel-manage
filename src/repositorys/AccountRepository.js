@@ -11,11 +11,12 @@ module.exports = {
             values: [username]
         }
 
-        return new Promise((resolve, reject) => {
-            con.query(query).then(res => {
-                resolve(res.rows[0])
-            })
-            .catch(e => reject(e))
-        })
+        try {
+            let result = await con.query(query)
+            return result.rows[0]
+        }
+        catch(e) {
+            throw e
+        }
     }
 }

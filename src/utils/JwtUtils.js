@@ -33,7 +33,9 @@ module.exports = {
             try {
                 let token = req.headers.authorization.substring(7)
                 // add handle
-                const isVerify = jwt.verify(token, ACCESS_TOKEN_SECRET, {algorithm: 'HS256', expiresIn: ACCESS_TOKEN_LIFE})
+                const verifyObj = jwt.verify(token, ACCESS_TOKEN_SECRET, {algorithm: 'HS256', expiresIn: ACCESS_TOKEN_LIFE})
+                
+                req.variable = {manager: verifyObj.username}
                 return next()
             }
             catch(e) {
