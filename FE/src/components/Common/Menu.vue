@@ -99,11 +99,9 @@ export default {
         type: 'warning'
       }).then(() => {
         const loader = this.getLoader()
-        setTimeout(() => {
-          sessionStorage.clear()
-          this.transitTo('Login', undefined)
-          this.closeLoader(loader)
-        }, 1000)
+        sessionStorage.clear()
+        this.transitTo('Login', undefined)
+        this.closeLoader(loader)
       })
     },
     /**

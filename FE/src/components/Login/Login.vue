@@ -21,6 +21,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 export default {
   data () {
     return {
@@ -31,29 +32,21 @@ export default {
     }
   },
   methods: {
+    ...mapActions('login', ['_checkLogin']),
     /**
      * Handle Login Form
      */
-    handleForm () {
+    async handleForm () {
       const loader = this.getLoader()
 
-      setTimeout(() => {
-        // Todo
-        this.checkLogin()
+      try {
+        await this._checkLogin(this.formData)
         this.closeLoader(loader)
-      }, 1000)
-    },
-    /**
-     * Check Login
-     */
-    checkLogin () {
-      const accountList = [
-        {username: 'leminhtuan', password: '1'}
-      ]
-      if (accountList.some(account => account.username === this.formData.username && account.password === this.formData.password)) {
-        sessionStorage.setItem('username', this.formData.username)
-        this.transitTo('Statistic', {username: this.formData.username})
-      } else {
+        this.$router.push('Statistic')
+        this.transitTo('Statistic', undefined)
+      } catch (e) {
+        this.closeLoader(loader)
+        console.error(e)
         this.showMessage('Tài khoản hoặc mật khẩu không chính xác !', 'warning')
       }
     },
@@ -82,8 +75,6 @@ export default {
      */
     transitTo (name, data) {
       const param = {
-        // path: path,
-        // query: data
         name: name,
         params: data
       }

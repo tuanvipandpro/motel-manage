@@ -141,7 +141,7 @@ export default {
      * Check Authen
      */
     checkAuthen () {
-      if (!sessionStorage.getItem('username')) {
+      if (!sessionStorage.getItem('USER')) {
         this.transitTo('Login', undefined)
       }
     }
