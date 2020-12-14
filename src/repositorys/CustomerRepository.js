@@ -21,5 +21,37 @@ module.exports = {
         catch(e) {
             throw e
         }
+    },
+    getCustomerById: async (customer_id) => {
+        const query = {
+            text: 'SELECT c.id, c.name, c.birthdate, c.gender, c.phone_number, c.address, c.email, c.cmnd, c.active '
+                + 'FROM customer AS c '
+                + 'WHERE  c.id = $1',
+            values: [customer_id]
+        }
+       
+        try {
+            let result = await con.query(query)
+            return result.rows[0]
+        }
+        catch(e) {
+            throw e
+        }
+    },
+    updateCustomerById: async (customer) => {
+        const query = {
+            text: 'UPDATE customer '
+                + 'SET name = $1, birthdate = $2, gender = $3, phone_number = $4, address = $5, email = $6, cmnd = $7, active = $8 '
+                + 'WHERE id = $9',
+            values: [customer.name, customer.birthdate, customer.gender, customer.phone_number, customer.address, customer.email, customer.cmnd, customer.active, customer.id]
+        }
+       
+        try {
+            let result = await con.query(query)
+            return result.rowCount
+        }
+        catch(e) {
+            throw e
+        }
     }
 }

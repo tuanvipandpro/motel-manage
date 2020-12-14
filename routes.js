@@ -7,4 +7,7 @@ module.exports = (app) => {
     
     app.route('/api/customer')
         .get(CustomerController.getCustomersByManager)
+    
+    app.route('/api/deactive-customer/:id')
+        .put(CustomerController.updateActiveCustomer)
 }
