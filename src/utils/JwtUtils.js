@@ -28,10 +28,11 @@ module.exports = {
      * @param next
      */  
     verifyToken: (req, res, next) => {
-        console.log(req)
+        // console.log(req)
         if (NO_AUTH_URL.includes(req.originalUrl)) return next()
         else {           
             try {
+                console.log(req.headers)
                 let token = req.headers.authorization.substring(7)
                 // add handle
                 const verifyObj = jwt.verify(token, ACCESS_TOKEN_SECRET, {algorithm: 'HS256', expiresIn: ACCESS_TOKEN_LIFE})
@@ -40,6 +41,7 @@ module.exports = {
                 return next()
             }
             catch(e) {
+                console.error(e)
                 res.status(403).json({message: 'Forbidden !!!'})
             }
         }      

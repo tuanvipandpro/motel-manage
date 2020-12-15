@@ -10,16 +10,17 @@ require('dotenv').config()
 app.use(express.static(__dirname + '/public'))
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
-app.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-
-    // res.header("Access-Control-Allow-Origin", '*');
-    // res.header("Access-Control-Allow-Credentials", true);
-    // res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
-    // res.header("Access-Control-Allow-Headers", 'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json');
-    next();
-});
+app.use(cors({
+    origin: true,
+    credentials: true
+}))
+// app.use((req, res, next) => {
+//     res.setHeader("Access-Control-Allow-Origin", "*");
+//     res.setHeader("Access-Control-Allow-Credentials", "true");
+//     res.setHeader("Access-Control-Allow-Methods", "GET, HEAD, OPTIONS, POST, PUT, PATCH");
+//     res.setHeader("Access-Control-Allow-Headers", "Access-Control-Allow-Headers, Origin,Accept, X-Auth-Token, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers, authorization");
+//     next();
+// });
 
 app.use(jwt.verifyToken)
 
