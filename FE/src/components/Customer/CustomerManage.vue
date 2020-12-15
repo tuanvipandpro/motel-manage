@@ -50,10 +50,14 @@
 
 <script>
 import Menu from '../Common/Menu'
+import { mapState, mapActions } from 'vuex'
 
 export default {
   components: {
     'hci-menu': Menu
+  },
+  computed: {
+    ...mapState('customerManage', ['_customerList'])
   },
   data () {
     return {
@@ -80,22 +84,16 @@ export default {
     }
   },
   mounted () {
-    this.checkAuthen()
+    if (!sessionStorage.getItem('USER')) {
+      this.transitTo('Login', undefined)
+    } else {
+      this._getCustomerList().then(res => {
+        console.log(res)
+      }).catch(e => console.error(e))
+    }
   },
   methods: {
-    editCard (value) {
-      switch (value) {
-        case 1 : {
-          this.formData = this.cardFirst
-          break
-        }
-        case 2 : {
-          this.formData = this.cardSecond
-          break
-        }
-      }
-      this.visibleCard = !this.visibleCard
-    },
+    ...mapActions('customerManage', ['_getCustomerList']),
     /**
      * Show Loader
      */
@@ -136,14 +134,6 @@ export default {
         message: message,
         type: type
       })
-    },
-    /**
-     * Check Authen
-     */
-    checkAuthen () {
-      if (!sessionStorage.getItem('USER')) {
-        this.transitTo('Login', undefined)
-      }
     }
   }
 }

@@ -28,6 +28,7 @@ module.exports = {
      * @param next
      */  
     verifyToken: (req, res, next) => {
+        console.log(req)
         if (NO_AUTH_URL.includes(req.originalUrl)) return next()
         else {           
             try {

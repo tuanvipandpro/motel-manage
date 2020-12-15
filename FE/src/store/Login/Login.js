@@ -12,6 +12,13 @@ const login = {
 
   },
   actions: {
+    /**
+     * Check Login
+     * @param context
+     * @param params (username, password)
+     * @returns access_token
+     * @returns user
+     */
     async _checkLogin (context, params) {
       try {
         const url = '/auth/login'
