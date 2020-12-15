@@ -19,25 +19,39 @@
                             <el-popover trigger="hover" placement="top">
                                 <p>Tên: {{ scope.row.name }}</p>
                                 <p>CMND: {{ scope.row.cmnd }}</p>
+                                <p>Địa chỉ: {{ scope.row.address }}</p>
+                                <p>Giới tính: {{ scope.row.gender == 1 ? 'Nam' : 'Nữ'}}</p>
+                                <p>Số điện thoại: {{ scope.row.phone_number }}</p>
+                                <p>Email: {{ scope.row.email == null ? 'Không có' : scope.row.email }}</p>
                                 <div slot="reference" class="name-wrapper">
                                     <el-tag size="medium">{{ scope.row.name }}</el-tag>
                                 </div>
                             </el-popover>
                         </template>
                     </el-table-column>
-                    <el-table-column prop="roomId" label="Số phòng"/>
-                    <el-table-column prop="birthday" label="Ngày Sinh"/>
+                    <el-table-column label="Số phòng">
+                        <template slot-scope="scope">
+                            <el-popover trigger="hover" placement="top">
+                                <p>Id: {{ scope.row.rm_id }}</p>
+                                <p>Mã phòng: {{ scope.row.rm_code }}</p>
+                                <div slot="reference" class="name-wrapper">
+                                    <el-tag size="medium">{{ scope.row.rm_code }}</el-tag>
+                                </div>
+                            </el-popover>
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="birthdate" label="Ngày Sinh"/>
                     <el-table-column label="Giới tính">
                         <template slot-scope="scope">
-                            <el-tag :type="scope.row.gender ? 'success' : 'primary'">
+                            <el-tag :type="scope.row.gender == 1 ? 'success' : 'primary'">
                                 {{scope.row.gender ? 'Nam' : 'Nữ'}}
                             </el-tag>
                         </template>
                     </el-table-column>
                     <el-table-column label="Thao tác" fixed="right">
                         <template slot-scope="scope">
-                          <el-button type="text" v-if="scope.row.status">Active</el-button>
-                          <el-button type="text" v-else>Inactive</el-button>
+                          <el-button type="text" v-if="scope.row.active">Inactive</el-button>
+                          <el-button type="text" v-else>Active</el-button>
                         </template>
                     </el-table-column>
                 </el-table>
@@ -61,35 +75,21 @@ export default {
   },
   data () {
     return {
-      tableData: [
-        {
-          id: '1',
-          name: 'Lê Minh Tuấn',
-          cmnd: '123456789',
-          birthday: '01-10-1999',
-          gender: true,
-          roomId: 1,
-          status: true
-        },
-        {
-          id: '1',
-          name: 'Lý Thị Cà Chua',
-          cmnd: '123456789',
-          birthday: '02-10-1999',
-          gender: true,
-          roomId: 1,
-          status: false
-        }
-      ]
+      tableData: []
     }
   },
   mounted () {
+    let loader = this.getLoader()
     if (!sessionStorage.getItem('USER')) {
       this.transitTo('Login', undefined)
     } else {
       this._getCustomerList().then(res => {
-        console.log(res)
-      }).catch(e => console.error(e))
+        this.closeLoader(loader)
+        this.tableData = this._customerList
+      }).catch(e => {
+        console.error(e)
+        this.closeLoader(loader)
+      })
     }
   },
   methods: {
