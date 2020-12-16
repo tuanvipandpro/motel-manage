@@ -8,7 +8,21 @@
       <!-- Content -->
       <el-col :offset="5" :span="19">
           <div>
-              <h1>Room manage</h1>
+              <el-card shadow="hover" style="width: 98%; margin-left: 1%; margin-right: 1%; margin-top: 1vh">
+                <div slot="header" class="clearfix">
+                    <h2>Danh sách phòng trọ</h2>
+                    <p>Giá điện : 3000</p>
+                    <p>Giá nước : 12000</p>
+                </div>
+                <el-table :data="tableData" stripe>
+                    <el-table-column fixed prop="id" label="Id"/>
+                    <el-table-column prop="rm_code" label="Mã Phòng"/>
+                    <el-table-column prop="electric" label="Số điện"/>
+                    <el-table-column prop="water" label="Số nước"/>
+                    <el-table-column prop="price" label="Giá phòng"/>
+                    <el-table-column prop="social" label="Rác + ANTT"/>
+                </el-table>
+              </el-card>
           </div>
       </el-col>
     </el-row>
@@ -17,14 +31,14 @@
 
 <script>
 import Menu from '../Common/Menu'
-// import { mapState, mapActions } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 
 export default {
   components: {
     'hci-menu': Menu
   },
   computed: {
-    // ...mapState('customerManage', ['_customerList'])
+    ...mapState('roomManage', ['_roomList'])
   },
   data () {
     return {
@@ -32,20 +46,21 @@ export default {
     }
   },
   mounted () {
-    // let loader = this.getLoader()
-    // if (!sessionStorage.getItem('USER')) {
-    //   this.transitTo('Login', undefined)
-    // } else {
-    //   this._getCustomerList().then(res => {
-    //     this.closeLoader(loader)
-    //     this.tableData = this._customerList
-    //   }).catch(e => {
-    //     console.error(e)
-    //     this.closeLoader(loader)
-    //   })
-    // }
+    let loader = this.getLoader()
+    if (!sessionStorage.getItem('USER')) {
+      this.transitTo('Login', undefined)
+    } else {
+      this._getRoomByUser().then(res => {
+        this.closeLoader(loader)
+        this.tableData = this._roomList
+      }).catch(e => {
+        console.error(e)
+        this.closeLoader(loader)
+      })
+    }
   },
   methods: {
+    ...mapActions('roomManage', ['_getRoomByUser']),
     /**
      * Show Loader
      */

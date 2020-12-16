@@ -1,5 +1,6 @@
 const AuthController = require('./src/controllers/AuthController')
 const CustomerController = require('./src/controllers/CustomerController')
+const RoomController = require('./src/controllers/RoomController')
 
 module.exports = (app) => {
     app.route('/auth/login')
@@ -10,4 +11,7 @@ module.exports = (app) => {
     
     app.route('/api/deactive-customer/:id')
         .put(CustomerController.updateActiveCustomer)
+    
+    app.route('/api/room')
+        .get(RoomController.getRoomsByManager)
 }

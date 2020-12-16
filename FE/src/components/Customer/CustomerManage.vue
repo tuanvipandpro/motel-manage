@@ -138,26 +138,3 @@ export default {
   }
 }
 </script>
-
-<style>
-  #profile-container{
-    margin-left: 2% ;
-  }
-
-  .clearfix:before,
-  .clearfix:after {
-    display: table;
-    content: "";
-  }
-  .clearfix:after {
-    clear: both
-  }
-
-  .item {
-    margin-bottom: 18px;
-  }
-
-  i {
-    margin-right: 8px;
-  }
-</style>
