@@ -1,4 +1,4 @@
-!<template>
+<template>
   <div id="hci-menu">
     <el-menu
       :default-active="activeIndex"
@@ -12,14 +12,14 @@
         <i class="el-icon-data-analysis"></i>
         <span>Trang Chủ</span>
       </el-menu-item>
-      <el-submenu index="2">
+      <!-- <el-submenu index="2">
         <template slot="title">
           <i class="el-icon-notebook-1"></i>
           <span>Quản lý đơn phòng</span>
         </template>
         <el-menu-item index="2-1" @click="doMakeBill">Tạo đơn phòng</el-menu-item>
         <el-menu-item index="2-2">Lịch sử đơn phòng</el-menu-item>
-      </el-submenu>
+      </el-submenu> -->
       <el-submenu index="3">
         <template slot="title">
           <i class="el-icon-s-custom"></i>
@@ -32,7 +32,7 @@
           <i class="el-icon-office-building"></i>
           <span>Quản lý phòng trọ</span>
         </template>
-        <el-menu-item index="4-1">Danh sách phòng trọ</el-menu-item>
+        <el-menu-item index="4-1" @click="doRoomManage">Danh sách phòng trọ</el-menu-item>
       </el-submenu>
       <el-submenu index="5">
         <template slot="title">
@@ -78,19 +78,25 @@ export default {
       this.transitTo('CustomerManage', undefined)
     },
     /**
-     * Go to new profile page 4-0
+     * Go to room manage page 4-1
+     */
+    doRoomManage () {
+      this.transitTo('RoomManage', undefined)
+    },
+    /**
+     * Go to new profile page 5-0
      */
     doProfile () {
       this.transitTo('Profile', undefined)
     },
     /**
-     * Go to new change password page 4-1
+     * Go to new change password page 5-1
      */
     doChangePassword () {
       this.transitTo('ChangePassword', undefined)
     },
     /**
-     * Logout 4-2
+     * Logout 5-2
      */
     doLogout () {
       this.$confirm('Bạn có muốn đăng xuất?', 'Đăng xuất', {
