@@ -13,5 +13,18 @@ module.exports = {
         catch(e) {
             throw e
         }
+    },
+    /**
+     * 
+     * @param {*} manager 
+     */
+    getConstantPrice: async () => {
+        try {
+            let result = RoomRepository.getConstantPrice()
+            return result
+        }
+        catch(e) {
+            throw e
+        }
     }
 }

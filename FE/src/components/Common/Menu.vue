@@ -8,8 +8,8 @@
       class="el-menu-vertical-demo"
       style="min-height: 100vh"
     >
-      <el-menu-item index="1" @click="doHome">
-        <i class="el-icon-data-analysis"></i>
+      <el-menu-item index="1" @click="transitTo('Statistic')">
+        <i class="el-icon-monitor"></i>
         <span>Trang Chủ</span>
       </el-menu-item>
       <!-- <el-submenu index="2">
@@ -25,15 +25,15 @@
           <i class="el-icon-s-custom"></i>
           <span>Quản lý khách trọ</span>
         </template>
-        <el-menu-item index="3-1" @click="doCustomerManage">Danh sách khách trọ</el-menu-item>
+        <el-menu-item index="3-1" @click="transitTo('CustomerManage')">Danh sách khách trọ</el-menu-item>
       </el-submenu>
       <el-submenu index="4">
         <template slot="title">
           <i class="el-icon-office-building"></i>
           <span>Quản lý phòng trọ</span>
         </template>
-        <el-menu-item index="4-1" @click="doRoomManage">Danh sách phòng trọ</el-menu-item>
-        <el-menu-item index="4-2">Tính tiền phòng</el-menu-item>
+        <el-menu-item index="4-1" @click="transitTo('RoomManage')">Danh sách phòng trọ</el-menu-item>
+        <el-menu-item index="4-2" @click="transitTo('MakeBill')">Tính tiền phòng</el-menu-item>
         <el-menu-item index="4-3">Lịch sử đơn phòng</el-menu-item>
       </el-submenu>
       <el-submenu index="5">
@@ -41,8 +41,8 @@
           <i class="el-icon-setting"></i>
           <span>Thông tin chung</span>
         </template>
-        <el-menu-item index="5-0" @click="doProfile">Hồ sơ</el-menu-item>
-        <el-menu-item index="5-1" @click="doChangePassword">Đổi mặt khẩu</el-menu-item>
+        <el-menu-item index="5-0" @click="transitTo('Profile')">Hồ sơ</el-menu-item>
+        <el-menu-item index="5-1" @click="transitTo('ChangePassword')">Đổi mặt khẩu</el-menu-item>
         <el-menu-item index="5-2" @click="doLogout">Đăng xuất</el-menu-item>
       </el-submenu>
     </el-menu>
@@ -55,48 +55,6 @@ export default {
     activeIndex: String
   },
   methods: {
-    /**
-     * Go to home page 1
-     */
-    doHome () {
-      this.transitTo('Statistic', undefined)
-    },
-    /**
-     * Go to new pitch page 2-1
-     */
-    doMakeBill () {
-      this.transitTo('MakeBill', undefined)
-    },
-    /**
-     * Go to manage pitch pitch page 2-2
-     */
-    doManageBill () {
-      this.transitTo('ManageBill', undefined)
-    },
-    /**
-     * Go to customer-manage page 3-1
-     */
-    doCustomerManage () {
-      this.transitTo('CustomerManage', undefined)
-    },
-    /**
-     * Go to room manage page 4-1
-     */
-    doRoomManage () {
-      this.transitTo('RoomManage', undefined)
-    },
-    /**
-     * Go to new profile page 5-0
-     */
-    doProfile () {
-      this.transitTo('Profile', undefined)
-    },
-    /**
-     * Go to new change password page 5-1
-     */
-    doChangePassword () {
-      this.transitTo('ChangePassword', undefined)
-    },
     /**
      * Logout 5-2
      */

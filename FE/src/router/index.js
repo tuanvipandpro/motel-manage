@@ -6,6 +6,7 @@ import ForgetPassword from '@/components/Login/ForgetPassword'
 import Statistic from '@/components/Statistic/Statistic'
 import CustomerManage from '@/components/Customer/CustomerManage'
 import RoomManage from '@/components/Room/RoomManage'
+import MakeBill from '@/components/Room/MakeBill'
 import Profile from '@/components/ChangePassword/Profile'
 import ChangePassword from '@/components/ChangePassword/ChangePassword'
 import PageNotFound from '@/components/Error/404'
@@ -38,6 +39,11 @@ export default new Router({
       path: '/room-manage',
       name: 'RoomManage',
       component: RoomManage
+    },
+    {
+      path: '/make-bill',
+      name: 'MakeBill',
+      component: MakeBill
     },
     {
       path: '/profile',

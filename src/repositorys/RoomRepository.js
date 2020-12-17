@@ -21,5 +21,26 @@ module.exports = {
         catch(e) {
             throw e
         }
+    },
+    /**
+     * 
+     * @param {*} manager 
+     */
+    getConstantPrice: async () => {
+        const query = {
+            text: 'SELECT * ' 
+                + 'FROM price '
+                + 'WHERE active = true '
+                + 'ORDER BY id ',
+            values: []
+        }
+
+        try {
+            let result = await con.query(query)
+            return result.rows[0]
+        }
+        catch(e) {
+            throw e
+        }
     }
 }

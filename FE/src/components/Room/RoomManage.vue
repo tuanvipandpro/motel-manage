@@ -1,5 +1,5 @@
 !<template>
-  <div id="customer-manage">
+  <div id="room-manage">
     <el-row style="text-align: left">
       <!-- Menu -->
       <el-col :span='5'>
@@ -11,8 +11,8 @@
               <el-card shadow="hover" style="width: 98%; margin-left: 1%; margin-right: 1%; margin-top: 1vh">
                 <div slot="header" class="clearfix">
                     <h2>Danh sách phòng trọ</h2>
-                    <p>Giá điện : 3000</p>
-                    <p>Giá nước : 12000</p>
+                    <p>Giá điện : {{ constants.electric_price ? constants.electric_price : 0}}/kWh</p>
+                    <p>Giá nước : {{ constants.water_price ? constants.water_price : 0}}/m3</p>
                 </div>
                 <el-table :data="tableData" stripe>
                     <el-table-column fixed prop="id" label="Id"/>
@@ -38,18 +38,22 @@ export default {
     'hci-menu': Menu
   },
   computed: {
-    ...mapState('roomManage', ['_roomList'])
+    ...mapState('roomManage', ['_roomList', '_constantPrice'])
   },
   data () {
     return {
-      tableData: []
+      tableData: [],
+      constants: {}
     }
   },
-  mounted () {
+  async mounted () {
     let loader = this.getLoader()
     if (!sessionStorage.getItem('USER')) {
       this.transitTo('Login', undefined)
     } else {
+      await this._getConstantPrice()
+      this.constants = this._constantPrice
+
       this._getRoomByUser().then(res => {
         this.closeLoader(loader)
         this.tableData = this._roomList
@@ -60,7 +64,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions('roomManage', ['_getRoomByUser']),
+    ...mapActions('roomManage', ['_getRoomByUser', '_getConstantPrice']),
     /**
      * Show Loader
      */
