@@ -42,5 +42,12 @@ module.exports = {
         catch(e) {
             throw e
         }
+    },
+    /**
+     * 
+     * @param {*} manager 
+     */    
+    createBill: async () => {
+
     }
 }

@@ -32,5 +32,22 @@ module.exports = {
             console.error(e)
             res.status(500).json({status: 500, message: 'Internal Server Error !', error: e})
         }
+    },
+    /**
+     * Api create bill
+     * 
+     * @param {*} req 
+     * @param {*} res 
+     */    
+    createBill: async (req, res) => {
+        try {
+            const body = req.body
+            let result = await RoomService.createBill(body)
+            res.status(200).json({status: 200, data: result})
+        }
+        catch(e) {
+            console.error(e)
+            res.status(500).json({status: 500, message: 'Internal Server Error !', error: e})
+        }
     }
 }

@@ -17,4 +17,7 @@ module.exports = (app) => {
 
     app.route('/api/room/con-price')
         .get(RoomController.getConstantPrice)
+    
+    app.route('/api/room/create-bill')
+        .post(RoomController.createBill)
 }

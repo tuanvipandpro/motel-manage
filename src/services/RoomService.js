@@ -18,7 +18,7 @@ module.exports = {
      * 
      * @param {*} manager 
      */
-    getConstantPrice: async () => {
+    getConstantPrice: async (data) => {
         try {
             let result = RoomRepository.getConstantPrice()
             return result
@@ -26,5 +26,11 @@ module.exports = {
         catch(e) {
             throw e
         }
+    },
+    /**
+     * 
+     */
+    createBill: async () => {
+
     }
 }
