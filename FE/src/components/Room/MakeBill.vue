@@ -16,8 +16,8 @@
           <p>Giá nước: {{ constants.water_price ? constants.water_price : 0}}/m3</p>
           <el-divider />
           <div>
-            <el-button type="primary" plain>Tạo hóa đơn</el-button>
-            <el-table :data="tableData" stripe>
+            <el-button type="primary" plain @click="makeBill">Tạo hóa đơn</el-button>
+            <el-table :data="tableData" stripe @selection-change="handleSelectionChange">
               <el-table-column type="selection" />
               <el-table-column label="Mã Phòng">
                 <template slot-scope="scope">
@@ -54,6 +54,31 @@
           </div>
         </div>
       </el-col>
+      <el-dialog :visible.sync="dialogFlag">
+            <div slot="title">
+              <h2>Xác nhận hóa đơn</h2>
+            </div>
+            <el-table :data="confirmList" stripe>
+              <el-table-column label="Mã Phòng">
+                <template slot-scope="scope">
+                  <el-popover trigger="hover" placement="top">
+                    <p>ID: {{ scope.row.id }}</p>
+                    <p>Mã phòng: {{ scope.row.rm_code }}</p>
+                    <p>Tiền phòng: {{ scope.row.price }} VNĐ</p>
+                    <p>Rác + ANTT: {{ scope.row.social }} VNĐ</p>
+                    <div slot="reference">
+                      <el-tag size="medium">{{ scope.row.rm_code }}</el-tag>
+                    </div>
+                  </el-popover>
+                </template>
+              </el-table-column>
+              <el-table-column prop="electric" label="Số điện cũ" />
+              <el-table-column prop="newElectric" label="Số điện mới"/>
+              <el-table-column prop="water" label="Số nước cũ" />
+              <el-table-column prop="newWater" label="Số nước mới"/>
+            </el-table>
+            <div style="text-align: right"><el-button type="primary" plain @click="confirmBill" style="margin-top: 1%">Xác nhận</el-button></div>
+      </el-dialog>
     </el-row>
   </div>
 </template>
@@ -71,7 +96,9 @@ export default {
   },
   data () {
     return {
+      dialogFlag: false,
       tableData: [],
+      confirmList: [],
       constants: {}
     }
   },
@@ -96,6 +123,24 @@ export default {
   },
   methods: {
     ...mapActions('roomManage', ['_getRoomByUser', '_getConstantPrice']),
+    /**
+     * @param val
+     */
+    handleSelectionChange (val) {
+      this.confirmList = val
+    },
+    /**
+     * Make a bill to confirm
+     */
+    makeBill () {
+      this.dialogFlag = !this.dialogFlag
+    },
+    /**
+     * Confirm bill
+     */
+    confirmBill () {
+      this.dialogFlag = !this.dialogFlag
+    },
     /**
      * Show Loader
      */
