@@ -1,4 +1,5 @@
 const BillRepository = require('../repositorys/BillRepository')
+const PAGE_NUM = 5
 
 module.exports = {
     createBillAndDetails: async (manager, date, total, details) => {
@@ -10,6 +11,14 @@ module.exports = {
             })
             let rowCount = await BillRepository.createDetailsForBill(details)
             return {bill_id, rowCount}
+        }
+        catch(e) {
+            throw e
+        }
+    },
+    getBillByManager(manager, pageNo) {
+        try {
+
         }
         catch(e) {
             throw e

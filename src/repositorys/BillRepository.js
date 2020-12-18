@@ -31,5 +31,8 @@ module.exports = {
         catch(e) {
             throw e
         }
+    },
+    getBillByManagerAndNo: async (manager) => {
+
     }
 }
