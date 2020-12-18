@@ -42,8 +42,10 @@ module.exports = {
     createBill: async (req, res) => {
         try {
             const body = req.body
-            let result = await RoomService.createBill(body)
-            res.status(200).json({status: 200, data: result})
+            let result = await RoomService.createBill(body.list, body.date, req.variable.manager)
+            // res.status(200).json({status: 200, data: result})
+            // console.log(result)
+            res.status(200).json({message: 'OK'})
         }
         catch(e) {
             console.error(e)

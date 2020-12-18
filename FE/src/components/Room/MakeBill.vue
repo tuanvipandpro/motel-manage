@@ -37,7 +37,7 @@
                 <template slot-scope="scope">
                   <el-input-number
                     v-model="scope.row.newElectric"
-                    :min="scope.row.newElectric"
+                    :min="scope.row.electric + 1"
                   />
                 </template>
               </el-table-column>
@@ -46,7 +46,7 @@
                 <template slot-scope="scope">
                   <el-input-number
                     v-model="scope.row.newWater"
-                    :min="scope.row.newWater"
+                    :min="scope.row.water + 1"
                   />
                 </template>
               </el-table-column>
@@ -72,10 +72,45 @@
                   </el-popover>
                 </template>
               </el-table-column>
-              <el-table-column prop="electric" label="Số điện cũ" />
-              <el-table-column prop="newElectric" label="Số điện mới"/>
-              <el-table-column prop="water" label="Số nước cũ" />
-              <el-table-column prop="newWater" label="Số nước mới"/>
+              <el-table-column label="Tiền điện">
+                <template slot-scope="scope">
+                  <el-popover trigger="hover" placement="top">
+                    <p>Điện tiêu thụ: {{ scope.row.newElectric - scope.row.electric }} kWh</p>
+                    <p>( {{scope.row.newElectric}} - {{scope.row.electric}} ) * {{constants.electric_price}} = {{ (scope.row.newElectric - scope.row.electric)*constants.electric_price }} VND</p>
+                    <div slot="reference">
+                      <el-tag size="medium">{{ (scope.row.newElectric - scope.row.electric) * constants.electric_price }} VND</el-tag>
+                    </div>
+                  </el-popover>
+                </template>
+              </el-table-column>
+              <el-table-column label="Tiền nước">
+                <template slot-scope="scope">
+                  <el-popover trigger="hover" placement="top">
+                    <p>Nước tiêu thụ: {{ scope.row.newWater - scope.row.water}} m3</p>
+                    <p>( {{scope.row.newWater}} - {{scope.row.water}} ) * {{constants.water_price}} = {{ (scope.row.newWater - scope.row.water)*constants.water_price }} VND</p>
+                    <div slot="reference">
+                      <el-tag size="medium">{{ (scope.row.newWater - scope.row.water) * constants.water_price }} VND</el-tag>
+                    </div>
+                  </el-popover>
+                </template>
+              </el-table-column>
+              <el-table-column label="Tiền phòng">
+                <template slot-scope="scope">
+                  <el-popover trigger="hover" placement="top">
+                    <p>
+                      {{ (scope.row.newElectric - scope.row.electric)*constants.electric_price }} +
+                      {{ (scope.row.newWater - scope.row.water) * constants.water_price }} +
+                      {{ scope.row.price }} + {{ scope.row.social }} =
+                      {{ (scope.row.newWater - scope.row.water) * constants.water_price + (scope.row.newWater - scope.row.water)* constants.water_price + scope.row.price + scope.row.social}} VND
+                    </p>
+                    <div slot="reference">
+                      <el-tag size="medium">
+                        {{ (scope.row.newWater - scope.row.water) * constants.water_price + (scope.row.newWater - scope.row.water)* constants.water_price + scope.row.price + scope.row.social}} VND
+                      </el-tag>
+                    </div>
+                  </el-popover>
+                </template>
+              </el-table-column>
             </el-table>
             <div style="text-align: right"><el-button type="primary" plain @click="confirmBill" style="margin-top: 1%">Xác nhận</el-button></div>
       </el-dialog>
@@ -122,7 +157,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions('roomManage', ['_getRoomByUser', '_getConstantPrice']),
+    ...mapActions('roomManage', ['_getRoomByUser', '_getConstantPrice', '_createBill']),
     /**
      * @param val
      */
@@ -138,8 +173,17 @@ export default {
     /**
      * Confirm bill
      */
-    confirmBill () {
-      this.dialogFlag = !this.dialogFlag
+    async confirmBill () {
+      const loader = this.getLoader()
+      try {
+        let res = await this._createBill(this.confirmList)
+        console.log(res)
+      } catch (e) {
+        console.error(e)
+      } finally {
+        this.dialogFlag = !this.dialogFlag
+        this.closeLoader(loader)
+      }
     },
     /**
      * Show Loader

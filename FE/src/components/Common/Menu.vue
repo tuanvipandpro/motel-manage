@@ -34,7 +34,7 @@
         </template>
         <el-menu-item index="4-1" @click="transitTo('RoomManage')">Danh sách phòng trọ</el-menu-item>
         <el-menu-item index="4-2" @click="transitTo('MakeBill')">Tính tiền phòng</el-menu-item>
-        <el-menu-item index="4-3">Lịch sử đơn phòng</el-menu-item>
+        <el-menu-item index="4-3" @click="transitTo('HistoryBill')">Lịch sử đơn phòng</el-menu-item>
       </el-submenu>
       <el-submenu index="5">
         <template slot="title">

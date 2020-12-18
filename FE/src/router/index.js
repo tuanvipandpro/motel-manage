@@ -7,6 +7,7 @@ import Statistic from '@/components/Statistic/Statistic'
 import CustomerManage from '@/components/Customer/CustomerManage'
 import RoomManage from '@/components/Room/RoomManage'
 import MakeBill from '@/components/Room/MakeBill'
+import HistoryBill from '@/components/Room/HistoryBill'
 import Profile from '@/components/ChangePassword/Profile'
 import ChangePassword from '@/components/ChangePassword/ChangePassword'
 import PageNotFound from '@/components/Error/404'
@@ -44,6 +45,11 @@ export default new Router({
       path: '/make-bill',
       name: 'MakeBill',
       component: MakeBill
+    },
+    {
+      path: '/history-bill',
+      name: 'HistoryBill',
+      component: HistoryBill
     },
     {
       path: '/profile',

@@ -55,6 +55,20 @@ const roomManage = {
       } catch (e) {
         throw e
       }
+    },
+    /**
+     * Api create bill
+     * @param {*} context
+     * @param {*} params
+     */
+    async _createBill (context, params) {
+      try {
+        const url = '/api/room/create-bill'
+        let res = await axios.post(url, {list: params, date: new Date()}, {headers: {authorization: sessionStorage.getItem('access_token')}})
+        return res
+      } catch (e) {
+        throw e
+      }
     }
   }
 }
