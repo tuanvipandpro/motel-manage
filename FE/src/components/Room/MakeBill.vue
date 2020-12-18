@@ -175,14 +175,25 @@ export default {
      */
     async confirmBill () {
       const loader = this.getLoader()
+      let res
       try {
-        let res = await this._createBill(this.confirmList)
-        console.log(res)
+        res = await this._createBill(this.confirmList)
       } catch (e) {
         console.error(e)
+        this.$notify.error({
+          title: 'Thất bại',
+          message: 'Tạo hóa đơn thất bại !!!'
+        })
       } finally {
         this.dialogFlag = !this.dialogFlag
         this.closeLoader(loader)
+        if (res.status === 200) {
+          this.$notify({
+            title: 'Thành công',
+            message: 'Tạo hóa đơn thành công',
+            type: 'success'
+          })
+        }
       }
     },
     /**

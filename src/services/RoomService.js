@@ -1,9 +1,11 @@
 const RoomRepository = require('../repositorys/RoomRepository')
-const BillRepository = require('../repositorys/BillRepository')
+const BillService = require('./BillService')
+const HistoryService = require('./HistoryService')
 
-const createBillAndDetails = async (manager, date, total, details) => {
+const updateEWRoom = async (data, date, manager) => {
     try {
-        let bill_id = await BillRepository.createBill(manager, date, total)
+        await RoomRepository.upsertRoom(data.map(e => [e.id, e.rm_code, manager, e.newElectric, e.newWater, e.price, e.social, true]))
+        await HistoryService.makeHistory(data, manager, date)
     }
     catch(e) {
         throw e
@@ -45,22 +47,23 @@ module.exports = {
             let constant = await RoomRepository.getConstantPrice()
             let details = data.map(e => {
                 return {
+                    bill_id: 0,
                     rm_id: e.id,
                     rm_price: e.price,
                     rm_electric_old: e.electric,
                     rm_electric_new: e.newElectric,
                     rm_water_old: e.water,
                     rm_water_new: e.newWater,
-                    social: e.social,
                     price_e: constant.electric_price,
                     price_w: constant.water_price,
                     total: (e.newElectric - e.electric) * constant.electric_price + (e.newWater - e.water) * constant.water_price + e.social + e.price,
+                    social: e.social,
                     active: true
                 }
             })
-
             let total = details.reduce((sum, e) => sum + e.total, 0)
-            createBillAndDetails(manager, date, total, details)
+            await BillService.createBillAndDetails(manager, date, total, details)
+            await updateEWRoom(data, date, manager)
             return 1
         }
         catch(e) {

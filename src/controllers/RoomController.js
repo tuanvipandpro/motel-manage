@@ -43,9 +43,11 @@ module.exports = {
         try {
             const body = req.body
             let result = await RoomService.createBill(body.list, body.date, req.variable.manager)
-            // res.status(200).json({status: 200, data: result})
-            // console.log(result)
-            res.status(200).json({message: 'OK'})
+            if (result === 1) {
+                res.status(200).json({message: 'Create bill successfully !!!'})
+            } else {
+                res.status(500).json({status: 500, message: 'Internal Server Error !'})
+            }
         }
         catch(e) {
             console.error(e)

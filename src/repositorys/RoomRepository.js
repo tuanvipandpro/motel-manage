@@ -1,4 +1,5 @@
 const con = require('../../db')
+const format = require('pg-format')
 
 module.exports = {
     /**
@@ -47,7 +48,20 @@ module.exports = {
      * 
      * @param {*} manager 
      */    
-    createBill: async () => {
-
+    upsertRoom: async (data) => {
+        const query = format(
+            'INSERT INTO room(id, rm_code, manager, electric, water, price, social, active) '
+            + 'VALUES %L '
+            + 'ON CONFLICT (id) DO UPDATE '
+            + 'SET electric = excluded.electric, water = excluded.water ', 
+            data
+        )
+        try {
+            let result = await con.query(query)
+            return result.rowCount
+        }
+        catch(e) {
+            throw e
+        }
     }
 }

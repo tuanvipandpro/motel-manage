@@ -1,4 +1,5 @@
 import axios from 'axios'
+import moment from 'moment'
 
 const roomManage = {
   namespaced: true,
@@ -64,7 +65,7 @@ const roomManage = {
     async _createBill (context, params) {
       try {
         const url = '/api/room/create-bill'
-        let res = await axios.post(url, {list: params, date: new Date()}, {headers: {authorization: sessionStorage.getItem('access_token')}})
+        let res = await axios.post(url, {list: params, date: moment(new Date()).format('YYYY-MM-DD HH:mm:ss')}, {headers: {authorization: sessionStorage.getItem('access_token')}})
         return res
       } catch (e) {
         throw e
