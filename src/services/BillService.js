@@ -18,7 +18,8 @@ module.exports = {
     },
     getBillByManager(manager, pageNo) {
         try {
-
+            let result = BillRepository.getBillByManagerAndNo(manager, (pageNo - 1) * PAGE_NUM, pageNo)
+            return result
         }
         catch(e) {
             throw e

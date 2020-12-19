@@ -1,5 +1,6 @@
 const con = require('../../db')
 const format = require('pg-format')
+const { off } = require('../../db')
 
 module.exports = {
     createBill: async (manager, date, total) => {
@@ -32,7 +33,18 @@ module.exports = {
             throw e
         }
     },
-    getBillByManagerAndNo: async (manager) => {
+    getBillByManagerAndNo: async (manager, offset, limit) => {
+        const query = {
+            text: 'SELECT * FROM bill WHERE creater = $1 ORDER BY id OFFSET $2 LIMIT $3',
+            values: [manager, offset, limit]
+        }
 
+        try {
+            let result = await con.query(query)
+            return result.rows
+        }
+        catch(e) {
+            throw e
+        }
     }
 }

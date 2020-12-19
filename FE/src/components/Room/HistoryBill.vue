@@ -7,7 +7,19 @@
       </el-col>
       <!-- Content -->
       <el-col :offset="5" :span="19">
-          History
+          <div>
+            <el-card>
+              <div slot="header" class="clearfix">
+                <span style="font-size: 26px; font-weight: 600">Bill</span>
+              </div>
+              <el-table>
+                <el-table-column/>
+                <el-table-column/>
+                <el-table-column/>
+              </el-table>
+              <el-pagination/>
+            </el-card>
+          </div>
       </el-col>
     </el-row>
   </div>
@@ -15,15 +27,15 @@
 
 <script>
 import Menu from '../Common/Menu'
-// import { mapState, mapActions } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 
 export default {
   components: {
     'hci-menu': Menu
   },
-  //   computed: {
-  //     ...mapState('roomManage', ['_roomList', '_constantPrice'])
-  //   },
+  computed: {
+    ...mapState('historyBill', ['_billList'])
+  },
   data () {
     return {
       dialogFlag: false,
@@ -33,26 +45,15 @@ export default {
     }
   },
   async mounted () {
-    // let loader = this.getLoader()
-    // if (!sessionStorage.getItem('USER')) {
-    //   this.transitTo('Login', undefined)
-    // } else {
-    //   await this._getConstantPrice()
-    //   this.constants = this._constantPrice
-
-    //   this._getRoomByUser()
-    //     .then((res) => {
-    //       this.closeLoader(loader)
-    //       this.tableData = this._roomList
-    //     })
-    //     .catch((e) => {
-    //       console.error(e)
-    //       this.closeLoader(loader)
-    //     })
-    // }
+    let loader = this.getLoader()
+    if (!sessionStorage.getItem('USER')) {
+      this.transitTo('Login', undefined)
+    } else {
+      this.closeLoader(loader)
+    }
   },
   methods: {
-    // ...mapActions('roomManage', ['_getRoomByUser', '_getConstantPrice']),
+    ...mapActions('historyBill', ['_getBillList']),
     /**
      * Show Loader
      */

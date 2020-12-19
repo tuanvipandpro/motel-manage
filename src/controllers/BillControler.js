@@ -3,8 +3,8 @@ const BillService = require('../services/BillService')
 module.exports = {
     getBillByManager: async (req, res) => {
         try {
-            
-            res.status(200)
+            let result = BillService.getBillByManager(req.variable.manager, req.params.pageNo)
+            res.status(200).json(result)
         }
         catch(e) {
             console.error(e)

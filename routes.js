@@ -1,6 +1,7 @@
 const AuthController = require('./src/controllers/AuthController')
 const CustomerController = require('./src/controllers/CustomerController')
 const RoomController = require('./src/controllers/RoomController')
+const BillController = require('./src/controllers/BillControler')
 
 module.exports = (app) => {
     app.route('/auth/login')
@@ -20,4 +21,7 @@ module.exports = (app) => {
     
     app.route('/api/room/create-bill')
         .post(RoomController.createBill)
+    
+    app.route('/api/bill/:pageNo')
+        .get(BillController.getBillByManager)
 }
