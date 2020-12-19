@@ -8,16 +8,25 @@
       <!-- Content -->
       <el-col :offset="5" :span="19">
           <div>
-            <el-card>
+            <el-card shadow="hover" style="width: 98%; margin-left: 1%; margin-right: 1%; margin-top: 1vh">
               <div slot="header" class="clearfix">
-                <span style="font-size: 26px; font-weight: 600">Bill</span>
+                <span style="font-size: 26px; font-weight: 600">Hóa đơn</span>
               </div>
-              <el-table>
-                <el-table-column/>
-                <el-table-column/>
-                <el-table-column/>
+              <el-table :data="tableData">
+                <el-table-column fixed prop="id" label="Id"/>
+                <el-table-column prop="create_date" label="Ngày tính tiền"/>
+                <el-table-column prop="creater" label="Người tính tiền"/>
+                <el-table-column prop="total" label="Tổng tiền"/>
               </el-table>
-              <el-pagination/>
+              <el-pagination
+                background
+                layout="prev, pager, next"
+                :page-size="pageSize"
+                :current-page.sync="currentPage"
+                :total="total"
+                style="text-align: center; margin-top: 1%"
+                @current-change="changePage"
+              />
             </el-card>
           </div>
       </el-col>
@@ -34,26 +43,39 @@ export default {
     'hci-menu': Menu
   },
   computed: {
-    ...mapState('historyBill', ['_billList'])
+    ...mapState('historyBill', ['_billList', '_total'])
   },
   data () {
     return {
       dialogFlag: false,
       tableData: [],
-      confirmList: [],
-      constants: {}
+      total: 0,
+      pageSize: 2,
+      currentPage: 1
     }
   },
   async mounted () {
-    let loader = this.getLoader()
     if (!sessionStorage.getItem('USER')) {
       this.transitTo('Login', undefined)
     } else {
-      this.closeLoader(loader)
+      await this.changePage()
     }
   },
   methods: {
     ...mapActions('historyBill', ['_getBillList']),
+    async changePage () {
+      let loader = this.getLoader()
+      try {
+        await this._getBillList({pageNo: this.currentPage, pageNum: this.pageSize})
+        this.tableData = [...this._billList]
+        this.total = +this._total
+      } catch (e) {
+        console.error(e)
+        this.$notify({title: 'Lỗi', message: 'Có lỗi xảy ra', type: 'error'})
+      } finally {
+        this.closeLoader(loader)
+      }
+    },
     /**
      * Show Loader
      */

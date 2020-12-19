@@ -1,6 +1,5 @@
 const con = require('../../db')
 const format = require('pg-format')
-const { off } = require('../../db')
 
 module.exports = {
     createBill: async (manager, date, total) => {
@@ -35,7 +34,8 @@ module.exports = {
     },
     getBillByManagerAndNo: async (manager, offset, limit) => {
         const query = {
-            text: 'SELECT * FROM bill WHERE creater = $1 ORDER BY id OFFSET $2 LIMIT $3',
+            text: 'SELECT * FROM bill WHERE creater = $1 AND active = true '
+                + 'ORDER BY id DESC OFFSET $2 LIMIT $3',
             values: [manager, offset, limit]
         }
 
@@ -46,5 +46,19 @@ module.exports = {
         catch(e) {
             throw e
         }
+    },
+    countAllBill: async (manager) => {
+        const query = {
+            text: 'SELECT COUNT(*) FROM bill WHERE creater = $1 AND active = true ',
+            values: [manager]
+        }
+
+        try {
+            let result = await con.query(query)
+            return result.rows[0].count
+        }
+        catch(e) {
+            throw e
+        } 
     }
 }

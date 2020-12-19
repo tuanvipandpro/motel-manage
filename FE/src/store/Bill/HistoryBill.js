@@ -3,7 +3,8 @@ import axios from 'axios'
 const historyBill = {
   namespaced: true,
   state: {
-    _billList: []
+    _billList: [],
+    _total: 0
   },
   getters: {
 
@@ -14,16 +15,25 @@ const historyBill = {
      */
     _setBillList (state, _billList) {
       state._billList = _billList
+    },
+    _setTotal (state, _total) {
+      state._total = _total
     }
   },
   actions: {
-    async _getBillList (context, pageNo) {
+    async _getBillList (context, params) {
       try {
-        if (isNaN(pageNo)) return
+        if (isNaN(params.pageNo)) return
         else {
-          const url = '/api/bill/' + pageNo
-          let res = await axios.get(url, {headers: {authorization: sessionStorage.getItem('access_token')}})
-          context.commit('_setBillList', res.data)
+          const url = '/api/bill/' + params.pageNo
+          let res = await axios.get(url,
+            {
+              headers: {authorization: sessionStorage.getItem('access_token')},
+              params: {page_num: params.pageNum}
+            }
+          )
+          context.commit('_setBillList', res.data.billList)
+          context.commit('_setTotal', res.data.total)
           return res.data
         }
       } catch (e) {

@@ -1,5 +1,4 @@
 const BillRepository = require('../repositorys/BillRepository')
-const PAGE_NUM = 5
 
 module.exports = {
     createBillAndDetails: async (manager, date, total, details) => {
@@ -16,10 +15,11 @@ module.exports = {
             throw e
         }
     },
-    getBillByManager(manager, pageNo) {
+    getBillByManager: async (manager, pageNo, pageNum) => {
         try {
-            let result = BillRepository.getBillByManagerAndNo(manager, (pageNo - 1) * PAGE_NUM, pageNo)
-            return result
+            let result = await BillRepository.getBillByManagerAndNo(manager, (pageNo - 1) * pageNum, pageNum)
+            let total = await BillRepository.countAllBill(manager)
+            return {billList: result, total}
         }
         catch(e) {
             throw e
