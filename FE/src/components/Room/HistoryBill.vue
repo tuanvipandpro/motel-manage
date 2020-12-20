@@ -14,9 +14,18 @@
               </div>
               <el-table :data="tableData">
                 <el-table-column fixed prop="id" label="Id"/>
-                <el-table-column prop="create_date" label="Ngày tính tiền"/>
+                <el-table-column label="Ngày tính tiền">
+                  <template slot-scope="scope">
+                    {{ scope.row.create_date | formatDate() }}
+                  </template>
+                </el-table-column>
                 <el-table-column prop="creater" label="Người tính tiền"/>
                 <el-table-column prop="total" label="Tổng tiền"/>
+                <el-table-column label="Thao tác">
+                  <template slot-scope="scope">
+                    <el-button type="text" @click="dialogFlag = true">Xem</el-button>
+                  </template>
+                </el-table-column>
               </el-table>
               <el-pagination
                 background
@@ -31,12 +40,14 @@
           </div>
       </el-col>
     </el-row>
+    <el-dialog :visible.sync="dialogFlag"/>
   </div>
 </template>
 
 <script>
 import Menu from '../Common/Menu'
 import { mapState, mapActions } from 'vuex'
+import moment from 'moment'
 
 export default {
   components: {
@@ -52,6 +63,11 @@ export default {
       total: 0,
       pageSize: 2,
       currentPage: 1
+    }
+  },
+  filters: {
+    formatDate: (value) => {
+      return moment(value).format('DD-MM-YYYY HH:mm:ss')
     }
   },
   async mounted () {
