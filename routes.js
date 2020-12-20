@@ -24,4 +24,7 @@ module.exports = (app) => {
     
     app.route('/api/bill/:pageNo')
         .get(BillController.getBillByManager)
+    
+    app.route('/api/bill/details/:bill_id')
+        .get(BillController.getDetailsByBillId)
 }

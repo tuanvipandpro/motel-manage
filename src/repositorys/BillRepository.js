@@ -20,7 +20,7 @@ module.exports = {
     },
     createDetailsForBill: async (data) => {
         const query = format(
-            'INSERT INTO bill_details(bill_id, rm_id, rm_price, rm_electric_old, rm_electric_new, rm_water_old, rm_water_new, price_e, price_w, social, total, active) '
+            'INSERT INTO bill_details(bill_id, rm_id, rm_price, rm_electric_old, rm_electric_new, rm_water_old, rm_water_new, price_e, price_w, total, social, active) '
             + 'VALUES %L ', 
             data
         )
@@ -31,6 +31,34 @@ module.exports = {
         catch(e) {
             throw e
         }
+    },
+    getBillByIdAndManager: async (id, manager) => {
+        const query = {
+            text: 'SELECT * FROM bill WHERE id = $1 AND active = true AND creater = $2 ORDER BY id ',
+            values: [id, manager]
+        }
+
+        try {
+            let result = await con.query(query)
+            return result.rows.length > 0
+        }
+        catch(e) {
+            throw e
+        }        
+    },
+    getDetailsByBillId: async (bill_id) => {
+        const query = {
+            text: 'SELECT * FROM bill_details WHERE bill_id = $1 ORDER BY id ',
+            values: [bill_id]
+        }
+
+        try {
+            let result = await con.query(query)
+            return result.rows
+        }
+        catch(e) {
+            throw e
+        }        
     },
     getBillByManagerAndNo: async (manager, offset, limit) => {
         const query = {

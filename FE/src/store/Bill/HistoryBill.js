@@ -4,6 +4,7 @@ const historyBill = {
   namespaced: true,
   state: {
     _billList: [],
+    _detailsBill: [],
     _total: 0
   },
   getters: {
@@ -15,6 +16,9 @@ const historyBill = {
      */
     _setBillList (state, _billList) {
       state._billList = _billList
+    },
+    _setDetailsBill (state, _detailsBill) {
+      state._detailsBill = _detailsBill
     },
     _setTotal (state, _total) {
       state._total = _total
@@ -36,6 +40,20 @@ const historyBill = {
           context.commit('_setTotal', res.data.total)
           return res.data
         }
+      } catch (e) {
+        throw e
+      }
+    },
+    async _getDetailForBill (context, params) {
+      const url = '/api/bill/details/' + params.bill_id
+      try {
+        let res = await axios.get(url,
+          {
+            headers: {authorization: sessionStorage.getItem('access_token')}
+          }
+        )
+        context.commit('_setDetailsBill', res.data)
+        return res
       } catch (e) {
         throw e
       }

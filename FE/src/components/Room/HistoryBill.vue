@@ -10,7 +10,7 @@
           <div>
             <el-card shadow="hover" style="width: 98%; margin-left: 1%; margin-right: 1%; margin-top: 1vh">
               <div slot="header" class="clearfix">
-                <span style="font-size: 26px; font-weight: 600">Hóa đơn</span>
+                <span style="font-size: 26px; font-weight: 600">Danh sách hóa đơn</span>
               </div>
               <el-table :data="tableData">
                 <el-table-column fixed prop="id" label="Id"/>
@@ -23,7 +23,7 @@
                 <el-table-column prop="total" label="Tổng tiền"/>
                 <el-table-column label="Thao tác">
                   <template slot-scope="scope">
-                    <el-button type="text" @click="dialogFlag = true">Xem</el-button>
+                    <el-button type="text" @click="viewDetails(scope.row.id)">Xem</el-button>
                   </template>
                 </el-table-column>
               </el-table>
@@ -39,8 +39,27 @@
             </el-card>
           </div>
       </el-col>
+      <el-dialog :visible.sync="dialogFlag">
+        <template slot="title">
+          <span style="font-size: 24px; font-weight: 500">Chi tiết hóa đơn</span>
+        </template>
+        <el-table :data="detailsBill">
+          <el-table-column fixed prop="id" label="Id"/>
+          <el-table-column prop="rm_id" label="Id Phòng"/>
+          <el-table-column prop="total" label="Tổng tiền"/>
+          <el-table-column label="Thanh toán">
+            <template slot-scope="scope">
+              {{ scope.row.is_pay ? 'Đã thanh toán' : 'Chưa thanh toán'}}
+            </template>
+          </el-table-column>
+          <el-table-column fixed="right" label="Thao tác">
+            <template slot-scope="scope">
+              <el-button :disabled="scope.row.is_pay" >Thanh toán</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+      </el-dialog>
     </el-row>
-    <el-dialog :visible.sync="dialogFlag"/>
   </div>
 </template>
 
@@ -54,12 +73,13 @@ export default {
     'hci-menu': Menu
   },
   computed: {
-    ...mapState('historyBill', ['_billList', '_total'])
+    ...mapState('historyBill', ['_billList', '_total', '_detailsBill'])
   },
   data () {
     return {
       dialogFlag: false,
       tableData: [],
+      detailsBill: [],
       total: 0,
       pageSize: 2,
       currentPage: 1
@@ -78,13 +98,27 @@ export default {
     }
   },
   methods: {
-    ...mapActions('historyBill', ['_getBillList']),
+    ...mapActions('historyBill', ['_getBillList', '_getDetailForBill']),
     async changePage () {
       let loader = this.getLoader()
       try {
         await this._getBillList({pageNo: this.currentPage, pageNum: this.pageSize})
         this.tableData = [...this._billList]
         this.total = +this._total
+      } catch (e) {
+        console.error(e)
+        this.$notify({title: 'Lỗi', message: 'Có lỗi xảy ra', type: 'error'})
+      } finally {
+        this.closeLoader(loader)
+      }
+    },
+    async viewDetails (billId) {
+      let loader = this.getLoader()
+      try {
+        await this._getDetailForBill({bill_id: billId})
+        this.detailsBill = [...this._detailsBill]
+        console.log(this.detailsBill)
+        this.dialogFlag = true
       } catch (e) {
         console.error(e)
         this.$notify({title: 'Lỗi', message: 'Có lỗi xảy ra', type: 'error'})

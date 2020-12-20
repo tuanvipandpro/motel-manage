@@ -11,5 +11,19 @@ module.exports = {
             console.error(e)
             res.status(500).json({status: 500, message: 'Internal Server Error !', error: e})
         }
+    },
+    getDetailsByBillId: async (req, res) => {
+        try {
+            let result = await BillService.getDetailsByBillId(req.variable.manager, req.params.bill_id)
+            if (result === 0) {
+                res.status(403).json()
+                return
+            }
+            res.status(200).json(result)
+        }
+        catch(e) {
+            console.error(e)
+            res.status(500).json({status: 500, message: 'Internal Server Error !', error: e})
+        }
     }
 }

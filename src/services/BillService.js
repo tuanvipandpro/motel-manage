@@ -24,5 +24,18 @@ module.exports = {
         catch(e) {
             throw e
         }
+    },
+    getDetailsByBillId: async (manager, bill_id) => {
+        try {
+            if (await BillRepository.getBillByIdAndManager(bill_id, manager)) {
+                return await BillRepository.getDetailsByBillId(bill_id)
+            }
+            else {
+                return 0
+            }
+        }
+        catch(e) {
+            throw e
+        }
     }
 }
