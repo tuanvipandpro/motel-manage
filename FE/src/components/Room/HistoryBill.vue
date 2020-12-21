@@ -20,7 +20,11 @@
                   </template>
                 </el-table-column>
                 <el-table-column prop="creater" label="Người tính tiền"/>
-                <el-table-column prop="total" label="Tổng tiền"/>
+                <el-table-column label="Tổng tiền">
+                  <template slot-scope="scope">
+                    {{ new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(scope.row.total) }}
+                  </template>
+                </el-table-column>
                 <el-table-column label="Thao tác">
                   <template slot-scope="scope">
                     <el-button type="text" @click="viewDetails(scope.row.id)">Xem</el-button>
@@ -46,15 +50,23 @@
         <el-table :data="detailsBill">
           <el-table-column fixed prop="id" label="Id"/>
           <el-table-column prop="rm_id" label="Id Phòng"/>
-          <el-table-column prop="total" label="Tổng tiền"/>
+          <el-table-column prop="total" label="Tổng tiền">
+              <template slot-scope="scope">
+                  {{ new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(scope.row.total) }}
+              </template>
+          </el-table-column>
           <el-table-column label="Thanh toán">
             <template slot-scope="scope">
-              {{ scope.row.is_pay ? 'Đã thanh toán' : 'Chưa thanh toán'}}
+              <!-- {{ scope.row.is_pay ? 'Đã thanh toán' : 'Chưa thanh toán'}} -->
+              <el-tag v-if="scope.row.is_pay" type="success">Đã thanh toán</el-tag>
+              <el-tag v-else type="info">Chưa thanh toán</el-tag>
             </template>
           </el-table-column>
           <el-table-column fixed="right" label="Thao tác">
             <template slot-scope="scope">
-              <el-button :disabled="scope.row.is_pay" >Thanh toán</el-button>
+              <el-popconfirm title="Xác nhận thanh toán cho phòng này ?" confirm-button-text='Xác nhận' cancel-button-text='Hủy bỏ' :hide-icon="true" @confirm="confirmDetails(scope.row.id)">
+                <el-button slot="reference" type="text" :disabled="scope.row.is_pay">Thanh toán</el-button>
+              </el-popconfirm>
             </template>
           </el-table-column>
         </el-table>
@@ -99,6 +111,10 @@ export default {
   },
   methods: {
     ...mapActions('historyBill', ['_getBillList', '_getDetailForBill']),
+    async confirmDetails (id) {
+      let loader = this.getLoader()
+      console.log('1', id)
+    },
     async changePage () {
       let loader = this.getLoader()
       try {
@@ -117,7 +133,6 @@ export default {
       try {
         await this._getDetailForBill({bill_id: billId})
         this.detailsBill = [...this._detailsBill]
-        console.log(this.detailsBill)
         this.dialogFlag = true
       } catch (e) {
         console.error(e)
