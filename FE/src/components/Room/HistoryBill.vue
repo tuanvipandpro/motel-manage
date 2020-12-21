@@ -64,7 +64,7 @@
           </el-table-column>
           <el-table-column fixed="right" label="Thao tác">
             <template slot-scope="scope">
-              <el-popconfirm title="Xác nhận thanh toán cho phòng này ?" confirm-button-text='Xác nhận' cancel-button-text='Hủy bỏ' :hide-icon="true" @confirm="confirmDetails(scope.row.id)">
+              <el-popconfirm title="Xác nhận thanh toán cho phòng này ?" confirm-button-text='Xác nhận' cancel-button-text='Hủy bỏ' :hide-icon="true" @confirm="confirmDetails(scope)">
                 <el-button slot="reference" type="text" :disabled="scope.row.is_pay">Thanh toán</el-button>
               </el-popconfirm>
             </template>
@@ -110,11 +110,25 @@ export default {
     }
   },
   methods: {
-    ...mapActions('historyBill', ['_getBillList', '_getDetailForBill']),
-    async confirmDetails (id) {
+    ...mapActions('historyBill', ['_getBillList', '_getDetailForBill', '_checkPaidDetails']),
+    /**
+     * Check paid to details
+     */
+    async confirmDetails (scope) {
       let loader = this.getLoader()
-      console.log('1', id)
+      try {
+        await this._checkPaidDetails({id: scope.row.id})
+        scope.row.is_pay = true
+      } catch (e) {
+        console.error(e)
+        this.$notify({title: 'Lỗi', message: 'Có lỗi xảy ra', type: 'error'})
+      } finally {
+        this.closeLoader(loader)
+      }
     },
+    /**
+     * Update table by pageNo
+     */
     async changePage () {
       let loader = this.getLoader()
       try {
@@ -128,11 +142,14 @@ export default {
         this.closeLoader(loader)
       }
     },
+    /**
+     * Open modal to view details for bill
+     */
     async viewDetails (billId) {
       let loader = this.getLoader()
       try {
         await this._getDetailForBill({bill_id: billId})
-        this.detailsBill = [...this._detailsBill]
+        this.detailsBill = this._detailsBill
         this.dialogFlag = true
       } catch (e) {
         console.error(e)

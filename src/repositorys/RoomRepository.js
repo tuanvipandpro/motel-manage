@@ -24,7 +24,7 @@ module.exports = {
         }
     },
     /**
-     * 
+     * Get constant price
      * @param {*} manager 
      */
     getConstantPrice: async () => {
@@ -45,7 +45,7 @@ module.exports = {
         }
     },
     /**
-     * 
+     * Upsert room
      * @param {*} manager 
      */    
     upsertRoom: async (data) => {

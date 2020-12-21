@@ -2,6 +2,10 @@ const con = require('../../db')
 const format = require('pg-format')
 
 module.exports = {
+    /**
+     * Create history for bill
+     * @param {*} data 
+     */
     makeHistory: async (data) => {
         const query = format(
             'INSERT INTO history(rm_id, electric, water, create_date, updater, active) '

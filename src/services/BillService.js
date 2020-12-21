@@ -1,6 +1,13 @@
 const BillRepository = require('../repositorys/BillRepository')
 
 module.exports = {
+    /**
+     * Create bill and details
+     * @param {*} manager 
+     * @param {*} date 
+     * @param {*} total 
+     * @param {*} details 
+     */
     createBillAndDetails: async (manager, date, total, details) => {
         try {
             let bill_id = await BillRepository.createBill(manager, date, total)
@@ -15,6 +22,12 @@ module.exports = {
             throw e
         }
     },
+    /**
+     * Get bill by manager (paging)
+     * @param {*} manager 
+     * @param {*} pageNo 
+     * @param {*} pageNum 
+     */
     getBillByManager: async (manager, pageNo, pageNum) => {
         try {
             let result = await BillRepository.getBillByManagerAndNo(manager, (pageNo - 1) * pageNum, pageNum)
@@ -25,6 +38,11 @@ module.exports = {
             throw e
         }
     },
+    /**
+     * Get details by bill id
+     * @param {*} manager 
+     * @param {*} bill_id 
+     */
     getDetailsByBillId: async (manager, bill_id) => {
         try {
             if (await BillRepository.getBillByIdAndManager(bill_id, manager)) {

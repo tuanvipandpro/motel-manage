@@ -23,6 +23,10 @@ module.exports = {
             throw e
         }
     },
+    /**
+     * Get customer by id
+     * @param {*} customer_id 
+     */
     getCustomerById: async (customer_id) => {
         const query = {
             text: 'SELECT c.id, c.name, c.birthdate, c.gender, c.phone_number, c.address, c.email, c.cmnd, c.active '
@@ -39,6 +43,10 @@ module.exports = {
             throw e
         }
     },
+    /**
+     * Update customer by id
+     * @param {*} customer 
+     */
     updateCustomerById: async (customer) => {
         const query = {
             text: 'UPDATE customer '

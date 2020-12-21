@@ -1,6 +1,11 @@
 const BillService = require('../services/BillService')
 
 module.exports = {
+    /**
+     * Get Bill By Manager (paging)
+     * @param {*} req 
+     * @param {*} res 
+     */
     getBillByManager: async (req, res) => {
         try {
             let result = await BillService.getBillByManager(
@@ -12,6 +17,11 @@ module.exports = {
             res.status(500).json({status: 500, message: 'Internal Server Error !', error: e})
         }
     },
+    /**
+     * Get Details of Bill By Id
+     * @param {*} req 
+     * @param {*} res 
+     */    
     getDetailsByBillId: async (req, res) => {
         try {
             let result = await BillService.getDetailsByBillId(req.variable.manager, req.params.bill_id)

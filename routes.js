@@ -2,6 +2,7 @@ const AuthController = require('./src/controllers/AuthController')
 const CustomerController = require('./src/controllers/CustomerController')
 const RoomController = require('./src/controllers/RoomController')
 const BillController = require('./src/controllers/BillControler')
+const DetailsBillController = require('./src/controllers/DetailsBillController')
 
 module.exports = (app) => {
     app.route('/auth/login')
@@ -27,4 +28,7 @@ module.exports = (app) => {
     
     app.route('/api/bill/details/:bill_id')
         .get(BillController.getDetailsByBillId)
+    
+    app.route('/api/details-bill/:id')
+        .put(DetailsBillController.checkPaidDetails)
 }

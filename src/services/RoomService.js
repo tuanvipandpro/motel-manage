@@ -2,6 +2,12 @@ const RoomRepository = require('../repositorys/RoomRepository')
 const BillService = require('./BillService')
 const HistoryService = require('./HistoryService')
 
+/**
+ * Update Electric-Water Room (current)
+ * @param {*} data 
+ * @param {*} date 
+ * @param {*} manager 
+ */
 const updateEWRoom = async (data, date, manager) => {
     try {
         await RoomRepository.upsertRoom(data.map(e => [e.id, e.rm_code, manager, e.newElectric, e.newWater, e.price, e.social, true]))
@@ -27,7 +33,7 @@ module.exports = {
         }
     },
     /**
-     * 
+     * Get constant price
      * @param {*} manager 
      */
     getConstantPrice: async () => {
@@ -40,7 +46,10 @@ module.exports = {
         }
     },
     /**
-     * 
+     * Create bill
+     * @param {*} data 
+     * @param {*} date 
+     * @param {*} manager 
      */
     createBill: async (data, date, manager) => {
         try {

@@ -57,6 +57,19 @@ const historyBill = {
       } catch (e) {
         throw e
       }
+    },
+    /**
+     * Check paid for details
+     * @param {*} context
+     * @param {*} params
+     */
+    async _checkPaidDetails (context, params) {
+      try {
+        const url = '/api/details-bill/' + params.id
+        let res = await axios.put(url, {check: 1}, {headers: {authorization: sessionStorage.getItem('access_token')}})
+        console.log(res)
+        return res
+      } catch (e) { throw e }
     }
   }
 }
