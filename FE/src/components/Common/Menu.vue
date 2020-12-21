@@ -8,7 +8,7 @@
       class="el-menu-vertical-demo"
       style="min-height: 100vh"
     >
-      <el-menu-item index="1" @click="transitTo('Statistic')">
+      <el-menu-item index="1" @click="transitTo('Home')">
         <i class="el-icon-monitor"></i>
         <span>Trang Chủ</span>
       </el-menu-item>

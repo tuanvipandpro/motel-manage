@@ -57,7 +57,6 @@
           </el-table-column>
           <el-table-column label="Thanh toán">
             <template slot-scope="scope">
-              <!-- {{ scope.row.is_pay ? 'Đã thanh toán' : 'Chưa thanh toán'}} -->
               <el-tag v-if="scope.row.is_pay" type="success">Đã thanh toán</el-tag>
               <el-tag v-else type="info">Chưa thanh toán</el-tag>
             </template>
@@ -98,6 +97,9 @@ export default {
     }
   },
   filters: {
+    /**
+     * Format date to DD-MM-YYYY HH:mm:ss
+     */
     formatDate: (value) => {
       return moment(value).format('DD-MM-YYYY HH:mm:ss')
     }

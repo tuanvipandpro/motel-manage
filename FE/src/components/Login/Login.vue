@@ -42,8 +42,8 @@ export default {
       try {
         await this._checkLogin(this.formData)
         this.closeLoader(loader)
-        this.$router.push('Statistic')
-        this.transitTo('Statistic', undefined)
+        this.$router.push('Home')
+        this.transitTo('Home', undefined)
       } catch (e) {
         this.closeLoader(loader)
         console.error(e)

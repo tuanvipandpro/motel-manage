@@ -3,7 +3,7 @@ import Router from 'vue-router'
 
 import Login from '@/components/Login/Login'
 import ForgetPassword from '@/components/Login/ForgetPassword'
-import Statistic from '@/components/Statistic/Statistic'
+import Home from '@/components/Home/Home'
 import CustomerManage from '@/components/Customer/CustomerManage'
 import RoomManage from '@/components/Room/RoomManage'
 import MakeBill from '@/components/Room/MakeBill'
@@ -22,9 +22,9 @@ export default new Router({
       component: Login
     },
     {
-      path: '/statistic',
-      name: 'Statistic',
-      component: Statistic
+      path: '/home',
+      name: 'Home',
+      component: Home
     },
     {
       path: '/forget',

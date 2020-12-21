@@ -13,7 +13,7 @@
           <h2>Tính tiền phòng</h2>
           <el-divider />
           <p>Giá điện: {{ constants.electric_price ? constants.electric_price : 0}}/kWh</p>
-          <p>Giá nước: {{ constants.water_price ? constants.water_price : 0}}/m3</p>
+          <p>Giá nước: {{ constants.water_price ? constants.water_price : 0}}/m³</p>
           <el-divider />
           <div>
             <el-button type="primary" plain @click="makeBill">Tạo hóa đơn</el-button>
@@ -64,8 +64,8 @@
                   <el-popover trigger="hover" placement="top">
                     <p>ID: {{ scope.row.id }}</p>
                     <p>Mã phòng: {{ scope.row.rm_code }}</p>
-                    <p>Tiền phòng: {{ scope.row.price }} VNĐ</p>
-                    <p>Rác + ANTT: {{ scope.row.social }} VNĐ</p>
+                    <p>Tiền phòng: {{ scope.row.price | formatVND}} </p>
+                    <p>Rác + ANTT: {{ scope.row.social | formatVND}} </p>
                     <div slot="reference">
                       <el-tag size="medium">{{ scope.row.rm_code }}</el-tag>
                     </div>
@@ -78,7 +78,9 @@
                     <p>Điện tiêu thụ: {{ scope.row.newElectric - scope.row.electric }} kWh</p>
                     <p>( {{scope.row.newElectric}} - {{scope.row.electric}} ) * {{constants.electric_price}} = {{ (scope.row.newElectric - scope.row.electric)*constants.electric_price }} VND</p>
                     <div slot="reference">
-                      <el-tag size="medium">{{ (scope.row.newElectric - scope.row.electric) * constants.electric_price }} VND</el-tag>
+                      <el-tag>
+                        {{ new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format((scope.row.newElectric - scope.row.electric) * constants.electric_price) }}
+                      </el-tag>
                     </div>
                   </el-popover>
                 </template>
@@ -86,10 +88,12 @@
               <el-table-column label="Tiền nước">
                 <template slot-scope="scope">
                   <el-popover trigger="hover" placement="top">
-                    <p>Nước tiêu thụ: {{ scope.row.newWater - scope.row.water}} m3</p>
-                    <p>( {{scope.row.newWater}} - {{scope.row.water}} ) * {{constants.water_price}} = {{ (scope.row.newWater - scope.row.water)*constants.water_price }} VND</p>
+                    <p>Nước tiêu thụ: {{ scope.row.newWater - scope.row.water}} m³</p>
+                    <p>( {{scope.row.newWater}} - {{scope.row.water}} ) * {{constants.water_price}} = {{ (scope.row.newWater - scope.row.water)*constants.water_price | formatVND}} </p>
                     <div slot="reference">
-                      <el-tag size="medium">{{ (scope.row.newWater - scope.row.water) * constants.water_price }} VND</el-tag>
+                      <el-tag>
+                        {{ new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format((scope.row.newWater - scope.row.water) * constants.water_price) }}
+                      </el-tag>
                     </div>
                   </el-popover>
                 </template>
@@ -101,11 +105,11 @@
                       {{ (scope.row.newElectric - scope.row.electric)*constants.electric_price }} +
                       {{ (scope.row.newWater - scope.row.water) * constants.water_price }} +
                       {{ scope.row.price }} + {{ scope.row.social }} =
-                      {{ (scope.row.newWater - scope.row.water) * constants.water_price + (scope.row.newWater - scope.row.water)* constants.water_price + scope.row.price + scope.row.social}} VND
+                      {{ (scope.row.newWater - scope.row.water) * constants.water_price + (scope.row.newWater - scope.row.water) * constants.water_price + scope.row.price + scope.row.social | formatVND}}
                     </p>
                     <div slot="reference">
-                      <el-tag size="medium">
-                        {{ (scope.row.newWater - scope.row.water) * constants.water_price + (scope.row.newWater - scope.row.water)* constants.water_price + scope.row.price + scope.row.social}} VND
+                      <el-tag>
+                        {{ new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format((scope.row.newWater - scope.row.water) * constants.water_price + (scope.row.newWater - scope.row.water)* constants.water_price + scope.row.price + scope.row.social) }}
                       </el-tag>
                     </div>
                   </el-popover>
@@ -135,6 +139,14 @@ export default {
       tableData: [],
       confirmList: [],
       constants: {}
+    }
+  },
+  filters: {
+    /**
+     * Format number to VND
+     */
+    formatVND: (value) => {
+      return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(value)
     }
   },
   async mounted () {
@@ -174,6 +186,7 @@ export default {
      * Confirm bill
      */
     async confirmBill () {
+      if (this.confirmList.length < 1) return
       const loader = this.getLoader()
       let res
       try {

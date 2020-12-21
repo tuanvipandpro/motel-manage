@@ -8,7 +8,6 @@ module.exports = {
      */
     checkPaidDetails: async (req, res) => {
         try {
-            console.log(typeof(req.params.id))
             if (isNaN(+req.params.id)) {
                 res.status(400).json({status: 400, message: 'Some params is invalid'})
             } else {
