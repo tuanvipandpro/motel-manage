@@ -12,7 +12,8 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import locale from 'element-ui/lib/locale/lang/en'
 
-Axios.defaults.baseURL = 'http://localhost:5000'
+// Axios.defaults.baseURL = 'http://localhost:5000'
+Axios.defaults.baseURL = 'https://motel-manage.herokuapp.com'
 // Axios.defaults.baseURL = ''
 
 Vue.use(ElementUI, { locale })
