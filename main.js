@@ -11,7 +11,7 @@ app.use(express.static(__dirname + '/public'))
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 app.use(cors({
-    origin: 'http://localhost:8080',
+    origin: ['http://localhost:8080', 'https://tuanvipandpro.github.io/motel-manage'],
     credentials: true
 }))
 
