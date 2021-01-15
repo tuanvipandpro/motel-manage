@@ -27,7 +27,8 @@ const login = {
           password: params.password
         }
         let res = await axios.post(url, body)
-        sessionStorage.setItem('access_token', 'Bearer ' + res.data.access_token)
+        axios.defaults.headers.common['Authorization'] = `Bearer ${res.data.access_token}`
+        // sessionStorage.setItem('access_token', 'Bearer ' + res.data.access_token)
         sessionStorage.setItem('USER', JSON.stringify(res.data.user))
         return res.data
       } catch (e) {

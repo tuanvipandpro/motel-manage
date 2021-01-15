@@ -12,6 +12,14 @@ import Profile from '@/components/ChangePassword/Profile'
 import ChangePassword from '@/components/ChangePassword/ChangePassword'
 import PageNotFound from '@/components/Error/404'
 
+const isAuthenticated = (to, from, next) => {
+  if (sessionStorage.getItem('USER')) {
+    next()
+  } else {
+    next('/')
+  }
+}
+
 Vue.use(Router)
 
 export default new Router({
@@ -24,7 +32,8 @@ export default new Router({
     {
       path: '/home',
       name: 'Home',
-      component: Home
+      component: Home,
+      beforeEnter: isAuthenticated
     },
     {
       path: '/forget',

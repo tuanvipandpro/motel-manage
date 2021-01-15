@@ -51,6 +51,7 @@
 
 <script>
 import mixins from '../../mixins'
+import axios from 'axios'
 
 export default {
   mixins: [mixins],
@@ -68,6 +69,7 @@ export default {
         type: 'warning'
       }).then(() => {
         const loader = this.getLoader()
+        axios.defaults.headers.common['Authorization'] = undefined
         sessionStorage.clear()
         this.transitTo('Login', undefined)
         this.closeLoader(loader)

@@ -12,9 +12,14 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import locale from 'element-ui/lib/locale/lang/en'
 
-// Axios.defaults.baseURL = 'http://localhost:5000'
 Axios.defaults.baseURL = 'https://motel-manage.herokuapp.com'
-// Axios.defaults.baseURL = ''
+
+Axios.interceptors.response.use(undefined, err => {
+  return new Promise((resolve, reject) => {
+    console.log(err)
+    throw err
+  })
+})
 
 Vue.use(ElementUI, { locale })
 Vue.config.productionTip = false

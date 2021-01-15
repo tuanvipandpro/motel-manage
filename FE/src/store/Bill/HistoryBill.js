@@ -30,12 +30,7 @@ const historyBill = {
         if (isNaN(params.pageNo)) return
         else {
           const url = '/api/bill/' + params.pageNo
-          let res = await axios.get(url,
-            {
-              headers: {authorization: sessionStorage.getItem('access_token')},
-              params: {page_num: params.pageNum}
-            }
-          )
+          let res = await axios.get(url, {params: {page_num: params.pageNum}})
           context.commit('_setBillList', res.data.billList)
           context.commit('_setTotal', res.data.total)
           return res.data
@@ -47,11 +42,7 @@ const historyBill = {
     async _getDetailForBill (context, params) {
       const url = '/api/bill/details/' + params.bill_id
       try {
-        let res = await axios.get(url,
-          {
-            headers: {authorization: sessionStorage.getItem('access_token')}
-          }
-        )
+        let res = await axios.get(url)
         context.commit('_setDetailsBill', res.data)
         return res
       } catch (e) {
@@ -66,8 +57,7 @@ const historyBill = {
     async _checkPaidDetails (context, params) {
       try {
         const url = '/api/details-bill/' + params.id
-        let res = await axios.put(url, {check: 1}, {headers: {authorization: sessionStorage.getItem('access_token')}})
-        console.log(res)
+        let res = await axios.put(url, {check: 1})
         return res
       } catch (e) { throw e }
     }

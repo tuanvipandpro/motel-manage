@@ -24,7 +24,7 @@ const customerManage = {
     async _getCustomerList (context) {
       try {
         const url = '/api/customer'
-        let res = await axios.get(url, {headers: {authorization: sessionStorage.getItem('access_token')}})
+        let res = await axios.get(url)
         context.commit('_setCustomerList', res.data.data)
         return res.data
       } catch (e) {
