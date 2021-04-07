@@ -16,10 +16,20 @@
                 </div>
                 <el-table :data="tableData" stripe>
                     <el-table-column fixed prop="id" label="Id"/>
-                    <el-table-column prop="rm_code" label="Mã Phòng"/>
+                    <el-table-column prop="rm_code" label="Mã Phòng">
+                      <template slot-scope="scope">
+                          <el-popover trigger="hover" placement="top">
+                              <p>Giá phòng: {{ scope.row.price | formatVND }}</p>
+                              <p>Rác + ANTT: {{ scope.row.social | formatVND }}</p>
+                              <div slot="reference" class="name-wrapper">
+                                  <el-tag>{{scope.row.rm_code}}</el-tag>
+                              </div>
+                          </el-popover>
+                      </template>
+                    </el-table-column>
                     <el-table-column prop="electric" label="Số điện"/>
                     <el-table-column prop="water" label="Số nước"/>
-                    <el-table-column label="Giá phòng">
+                    <!-- <el-table-column label="Giá phòng">
                       <template slot-scope="scope">
                         {{ scope.row.price | formatVND}}
                       </template>
@@ -28,10 +38,16 @@
                       <template slot-scope="scope">
                         {{ scope.row.social | formatVND}}
                       </template>
+                    </el-table-column> -->
+                    <el-table-column prop="rented" label="Trạng thái">
+                      <template slot-scope="scope">
+                        <el-tag type="success" v-if="scope.row.rented">Đang thuê</el-tag>
+                        <el-tag type="danger" v-else>Trống</el-tag>
+                      </template>
                     </el-table-column>
                     <el-table-column label="Thao tác">
                       <template slot-scope="scope">
-                        <el-button type="text">Xem</el-button>
+                        <el-button type="text" @click="ToDetailRoom(scope.row.id)">Xem</el-button>
                       </template>
                     </el-table-column>
                 </el-table>
@@ -86,6 +102,9 @@ export default {
   },
   methods: {
     ...mapActions('roomManage', ['_getRoomByUser', '_getConstantPrice']),
+    ToDetailRoom (id) {
+      this.transitTo('RoomDetail', {id: id})
+    },
     /**
      * Show Loader
      */

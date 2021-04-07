@@ -6,6 +6,7 @@ import ForgetPassword from '@/components/Login/ForgetPassword'
 import Home from '@/components/Home/Home'
 import CustomerManage from '@/components/Customer/CustomerManage'
 import RoomManage from '@/components/Room/RoomManage'
+import RoomDetail from '@/components/Room/RoomDetail'
 import MakeBill from '@/components/Room/MakeBill'
 import HistoryBill from '@/components/Room/HistoryBill'
 import Profile from '@/components/ChangePassword/Profile'
@@ -49,6 +50,12 @@ export default new Router({
       path: '/room-manage',
       name: 'RoomManage',
       component: RoomManage
+    },
+    {
+      path: '/room-detail',
+      name: 'RoomDetail',
+      component: RoomDetail,
+      beforeEnter: isAuthenticated
     },
     {
       path: '/make-bill',

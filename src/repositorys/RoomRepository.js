@@ -8,7 +8,7 @@ module.exports = {
      */      
     getRoomByManager: async (manager) => {
         const query = {
-            text: 'SELECT id, rm_code, manager, electric, water, price, social, active ' 
+            text: 'SELECT id, rm_code, manager, electric, water, price, social, active, rented ' 
                 + 'FROM room '
                 + 'WHERE active = true AND manager = $1'
                 + 'ORDER BY id ',
