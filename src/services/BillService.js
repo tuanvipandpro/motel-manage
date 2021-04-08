@@ -28,6 +28,21 @@ module.exports = {
      * @param {*} pageNo 
      * @param {*} pageNum 
      */
+    getBillByRoom: async (id, pageNo, pageNum) => {
+        try {
+            let result = await BillRepository.getBillByRoom(id, (pageNo - 1) * pageNum, pageNum)
+            return result
+        }
+        catch(e) {
+            throw e
+        }
+    },
+    /**
+     * Get bill by manager (paging)
+     * @param {*} manager 
+     * @param {*} pageNo 
+     * @param {*} pageNum 
+     */
     getBillByManager: async (manager, pageNo, pageNum) => {
         try {
             let result = await BillRepository.getBillByManagerAndNo(manager, (pageNo - 1) * pageNum, pageNum)

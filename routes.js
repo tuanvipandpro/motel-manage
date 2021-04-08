@@ -17,7 +17,7 @@ module.exports = (app) => {
     app.route('/api/room/room-detail/:id')
         .get(RoomController.getRoomById)         
     
-        app.route('/api/room/room-customer/:id')
+    app.route('/api/room/room-customer/:id')
         .get(RoomController.getCustomerByRoomId)         
     
     app.route('/api/room')
@@ -31,6 +31,9 @@ module.exports = (app) => {
     
     app.route('/api/bill/:pageNo')
         .get(BillController.getBillByManager)
+
+    app.route('/api/bill/details/room/:id')
+        .get(BillController.getBillByRoom)
     
     app.route('/api/bill/details/:bill_id')
         .get(BillController.getDetailsByBillId)

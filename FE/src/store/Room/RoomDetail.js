@@ -4,7 +4,8 @@ const roomDetail = {
   namespaced: true,
   state: {
     _room: {},
-    _customerList: []
+    _customerList: [],
+    _billList: []
   },
   getters: {
 
@@ -23,6 +24,9 @@ const roomDetail = {
      */
     _setCustomerList (state, _customerList) {
       state._customerList = _customerList
+    },
+    _setBillList (state, _billList) {
+      state._billList = _billList
     }
   },
   actions: {
@@ -44,6 +48,15 @@ const roomDetail = {
         const url = '/api/room/room-customer/' + id
         let res = await axios.get(url)
         context.commit('_setCustomerList', res.data.data)
+      } catch (e) {
+        throw e
+      }
+    },
+    async _getBillByRoomId (context, params) {
+      try {
+        const url = '/api/bill/details/room/' + params.id
+        let res = await axios.get(url, {params: {page_no: params.page_no, page_num: params.page_num}})
+        context.commit('_setBillList', res.data)
       } catch (e) {
         throw e
       }

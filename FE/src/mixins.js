@@ -1,4 +1,12 @@
 export default {
+  filters: {
+    /**
+     * Format number to VND
+     */
+    formatVND: (value) => {
+      return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(value)
+    }
+  },
   methods: {
     /**
      * Show Loader

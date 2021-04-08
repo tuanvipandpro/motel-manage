@@ -62,6 +62,29 @@ module.exports = {
         }        
     },
     /**
+     * Get bill by room
+     * @param {*} id 
+     * @param {*} offset 
+     * @param {*} limit
+     */
+    getBillByRoom: async (id, offset, limit) => {
+        const query = {
+            text: 'SELECT * FROM bill_details '
+                + 'WHERE rm_id = $1 AND active = true '
+                + 'ORDER BY id DESC '
+                + 'OFFSET $2 LIMIT $3',
+            values: [id, offset, limit]
+        }
+
+        try {
+            let result = await con.query(query)
+            return result.rows
+        }
+        catch(e) {
+            throw e
+        }        
+    },
+    /**
      * Get details for bill
      * @param {*} bill_id 
      */
