@@ -18,6 +18,38 @@ module.exports = {
         }
     },
     /**
+     * Api get room by id
+     * 
+     * @param {*} req 
+     * @param {*} res 
+     */
+    getRoomById: async (req, res) => {
+        try {
+            let result = await RoomService.getRoomById(req.variable.manager, req.params.id)
+            res.status(200).json({status: 200, data: result})
+        }
+        catch(e) {
+            console.error(e)
+            res.status(500).json({status: 500, message: 'Internal Server Error !', error: e})
+        }
+    },
+    /**
+     * Api get room by id
+     * 
+     * @param {*} req 
+     * @param {*} res 
+     */
+     getCustomerByRoomId: async (req, res) => {
+        try {
+            let result = await RoomService.getCustomerByRoomId(req.variable.manager, req.params.id)
+            res.status(200).json({status: 200, data: result})
+        }
+        catch(e) {
+            console.error(e)
+            res.status(500).json({status: 500, message: 'Internal Server Error !', error: e})
+        }
+    },
+    /**
      * Api get electric price && water price
      * 
      * @param {*} req 

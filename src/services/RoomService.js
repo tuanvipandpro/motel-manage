@@ -25,13 +25,40 @@ module.exports = {
      */         
     getRoomsByManager: async (manager) => {
         try {
-            let result = RoomRepository.getRoomByManager(manager)
+            let result = await RoomRepository.getRoomByManager(manager)
             return result
         }
         catch(e) {
             throw e
         }
     },
+    /**
+     * Get Room By Manager
+     * @param manager manager
+     */         
+     getRoomById: async (manager, id) => {
+        try {
+            let result = await RoomRepository.getRoomById(manager, id)
+            return result
+        }
+        catch(e) {
+            throw e
+        }
+    },    
+    /**
+     * Get Customer By Room Id
+     * @param manager manager
+     * @param id id
+     */         
+     getCustomerByRoomId: async (manager, id) => {
+        try {
+            let result = await RoomRepository.getCustomerByRoomId(id, manager)
+            return result
+        }
+        catch(e) {
+            throw e
+        }
+    },    
     /**
      * Get constant price
      * @param {*} manager 

@@ -13,9 +13,15 @@ module.exports = (app) => {
     
     app.route('/api/deactive-customer/:id')
         .put(CustomerController.updateActiveCustomer)
+
+    app.route('/api/room/room-detail/:id')
+        .get(RoomController.getRoomById)         
+    
+        app.route('/api/room/room-customer/:id')
+        .get(RoomController.getCustomerByRoomId)         
     
     app.route('/api/room')
-        .get(RoomController.getRoomsByManager)
+        .get(RoomController.getRoomsByManager)   
 
     app.route('/api/room/con-price')
         .get(RoomController.getConstantPrice)
