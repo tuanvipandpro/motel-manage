@@ -30,8 +30,9 @@ module.exports = {
      */
     getBillByRoom: async (id, pageNo, pageNum) => {
         try {
-            let result = await BillRepository.getBillByRoom(id, (pageNo - 1) * pageNum, pageNum)
-            return result
+            let billList = await BillRepository.getBillByRoom(id, (pageNo - 1) * pageNum, pageNum)
+            let total = await BillRepository.countBillByRoom(id)
+            return {billList: billList, total: total}
         }
         catch(e) {
             throw e

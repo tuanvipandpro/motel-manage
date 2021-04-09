@@ -1,11 +1,13 @@
 import axios from 'axios'
+import moment from 'moment'
 
 const roomDetail = {
   namespaced: true,
   state: {
     _room: {},
     _customerList: [],
-    _billList: []
+    _billList: [],
+    _total: 0
   },
   getters: {
 
@@ -23,10 +25,16 @@ const roomDetail = {
      * @param {*} _room
      */
     _setCustomerList (state, _customerList) {
-      state._customerList = _customerList
+      state._customerList = _customerList.map(e => {
+        e.birthdate = moment(e.birthdate).format('DD/MM/YYYY')
+        return e
+      })
     },
     _setBillList (state, _billList) {
       state._billList = _billList
+    },
+    _setTotal (state, _total) {
+      state._total = _total
     }
   },
   actions: {
@@ -56,7 +64,8 @@ const roomDetail = {
       try {
         const url = '/api/bill/details/room/' + params.id
         let res = await axios.get(url, {params: {page_no: params.page_no, page_num: params.page_num}})
-        context.commit('_setBillList', res.data)
+        context.commit('_setBillList', res.data.billList)
+        context.commit('_setTotal', res.data.total)
       } catch (e) {
         throw e
       }

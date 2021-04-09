@@ -14,11 +14,13 @@
           <p><strong>Điện - Nước </strong> <el-tag type="warning">{{room.electric}} kWh</el-tag> - <el-tag>{{room.water}} m³</el-tag></p>
           <p><strong>Giá phòng:</strong> <el-tag type="info">{{new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(room.price)}}</el-tag></p>
           <p><strong>Dịch vụ:</strong> <el-tag type="info">{{new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(room.social)}}</el-tag></p>
-          <p><strong>Trạng thái:</strong> <el-tag :type="room.rented ? 'success' : 'danger'">{{room.rented ? 'Đang thuê' : 'Trống'}}</el-tag></p>
+          <p><strong>Trạng thái:</strong> <el-tag :type="room.rented ? 'success' : 'danger'">{{room.rented ? 'Đang thuê' : 'Trống'}}</el-tag> - <el-button v-if="room.rented" size="mini" type="danger" plain>Trống phòng</el-button></p>
         </div>
-
         <el-tabs style="width: 95%; margin-left: 0.3%">
           <el-tab-pane label="Khách trọ">
+            <div>
+              <el-button type="primary" plain><i class="el-icon-plus"></i>  Thêm khách trọ</el-button>
+            </div>
             <el-table :data="customerList" stripe>
               <el-table-column fixed prop="id" label="Id"/>
               <el-table-column prop="cmnd" label="CMND/CCCD"/>
@@ -40,9 +42,8 @@
               </el-table-column>
               <el-table-column prop="birthdate" label="Ngày Sinh"/>
               <el-table-column label="Thao tác" fixed="right">
-                  <template slot-scope="scope">
-                      <el-button type="text" v-if="scope.row.active">Inactive</el-button>
-                      <el-button type="text" v-else>Active</el-button>
+                  <template>
+                      <el-button size="mini" type="danger">Chuyển đi</el-button>
                   </template>
               </el-table-column>
             </el-table>
@@ -85,6 +86,11 @@
                   <el-tag size="medium" :type="scope.row.is_pay ? 'success' : 'danger'" >{{ scope.row.is_pay ? 'Đã thanh toán' : 'Chưa thanh toán' }}</el-tag>
                 </template>
               </el-table-column>
+              <el-table-column label="Thao tác" fixed="right">
+                  <template slot-scope="scope">
+                      <el-button size="mini" type="danger" :disabled="scope.row.is_pay">Thanh toán</el-button>
+                  </template>
+              </el-table-column>
             </el-table>
             <el-pagination
                 background
@@ -113,7 +119,7 @@ export default {
     'hci-menu': Menu
   },
   computed: {
-    ...mapState('roomDetail', ['_room', '_customerList', '_billList'])
+    ...mapState('roomDetail', ['_room', '_customerList', '_billList', '_total'])
   },
   data () {
     return {
@@ -144,25 +150,31 @@ export default {
       }
       await this._getBillByRoomId(params)
       this.billList = this._billList
+      this.total = +this._total
     } finally {
       this.closeLoader(loader)
     }
   },
   methods: {
-    ...mapActions('roomDetail', ['_getRoomById', '_getCustomerByRoomId', '_getBillByRoomId'])
-    // async changePage () {
-    //   let loader = this.getLoader()
-    //   try {
-    //     await this._getBillByRoomId({pageNo: this.currentPage, pageNum: this.pageSize})
-    //     this.billList = this._billList
-    //     this.total = +this._total
-    //   } catch (e) {
-    //     console.error(e)
-    //     this.$notify({title: 'Lỗi', message: 'Có lỗi xảy ra', type: 'error'})
-    //   } finally {
-    //     this.closeLoader(loader)
-    //   }
-    // }
+    ...mapActions('roomDetail', ['_getRoomById', '_getCustomerByRoomId', '_getBillByRoomId']),
+    async changePage () {
+      let loader = this.getLoader()
+      try {
+        let params = {
+          id: this.$route.params.id,
+          page_no: this.currentPage,
+          page_num: this.pageSize
+        }
+        await this._getBillByRoomId(params)
+        this.billList = this._billList
+        this.total = +this._total
+      } catch (e) {
+        console.error(e)
+        this.$notify({title: 'Lỗi', message: 'Có lỗi xảy ra', type: 'error'})
+      } finally {
+        this.closeLoader(loader)
+      }
+    }
   }
 }
 </script>

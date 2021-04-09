@@ -84,6 +84,20 @@ module.exports = {
             throw e
         }        
     },
+    countBillByRoom: async (id) => {
+        const query = {
+            text: 'SELECT COUNT(*) FROM bill_details WHERE rm_id = $1 AND active = true',
+            values: [id]
+        }
+
+        try {
+            let result = await con.query(query)
+            return result.rows[0].count
+        }
+        catch(e) {
+            throw e
+        }        
+    },
     /**
      * Get details for bill
      * @param {*} bill_id 
