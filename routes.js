@@ -23,6 +23,9 @@ module.exports = (app) => {
     app.route('/api/room')
         .get(RoomController.getRoomsByManager)   
 
+    app.route('/api/room/empty/:id')
+        .get(RoomController.emptyRoom)   
+
     app.route('/api/room/con-price')
         .get(RoomController.getConstantPrice)
     

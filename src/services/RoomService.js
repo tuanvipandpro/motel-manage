@@ -105,5 +105,14 @@ module.exports = {
         catch(e) {
             throw e
         }
-    }
+    },
+    emptyRoom: async (id) => {
+        try {
+            await RoomRepository.changeRentedFlg(id, false)
+            await RoomRepository.emptyRoom(id)
+        }
+        catch(e) {
+            throw e
+        }
+    },    
 }

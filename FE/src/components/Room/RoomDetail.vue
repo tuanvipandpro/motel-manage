@@ -14,7 +14,15 @@
           <p><strong>Điện - Nước </strong> <el-tag type="warning">{{room.electric}} kWh</el-tag> - <el-tag>{{room.water}} m³</el-tag></p>
           <p><strong>Giá phòng:</strong> <el-tag type="info">{{new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(room.price)}}</el-tag></p>
           <p><strong>Dịch vụ:</strong> <el-tag type="info">{{new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(room.social)}}</el-tag></p>
-          <p><strong>Trạng thái:</strong> <el-tag :type="room.rented ? 'success' : 'danger'">{{room.rented ? 'Đang thuê' : 'Trống'}}</el-tag> - <el-button v-if="room.rented" size="mini" type="danger" plain>Trống phòng</el-button></p>
+          <p>
+            <strong>Trạng thái:</strong>
+            <el-tag :type="room.rented ? 'success' : 'danger'">{{room.rented ? 'Đang thuê' : 'Trống'}}</el-tag>
+            <span v-if="room.rented" >
+              - <el-button size="mini" type="danger" plain @click="emptyRoom(room.id)">
+                  Chuyển đi
+                </el-button>
+            </span>
+          </p>
         </div>
         <el-tabs style="width: 95%; margin-left: 0.3%">
           <el-tab-pane label="Khách trọ">
@@ -43,7 +51,7 @@
               <el-table-column prop="birthdate" label="Ngày Sinh"/>
               <el-table-column label="Thao tác" fixed="right">
                   <template>
-                      <el-button size="mini" type="danger">Chuyển đi</el-button>
+                    <el-button size="mini" type="danger">Chuyển đi</el-button>
                   </template>
               </el-table-column>
             </el-table>
@@ -157,6 +165,7 @@ export default {
   },
   methods: {
     ...mapActions('roomDetail', ['_getRoomById', '_getCustomerByRoomId', '_getBillByRoomId']),
+    ...mapActions('roomManage', ['_emptyRoom']),
     async changePage () {
       let loader = this.getLoader()
       try {
@@ -174,6 +183,23 @@ export default {
       } finally {
         this.closeLoader(loader)
       }
+    },
+    async emptyRoom (id) {
+      this.$confirm('Bạn có chắc chắn muốn làm trống phòng này ?')
+        .then(async _ => {
+          let loader = this.getLoader()
+          try {
+            await this._emptyRoom(id)
+            this.customerList = []
+            this.room.rented = false
+          } catch (e) {
+            console.error(e)
+            this.$notify({title: 'Lỗi', message: 'Có lỗi xảy ra', type: 'error'})
+          } finally {
+            this.closeLoader(loader)
+          }
+        })
+        .catch(_ => {})
     }
   }
 }

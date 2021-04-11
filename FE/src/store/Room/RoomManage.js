@@ -70,6 +70,15 @@ const roomManage = {
       } catch (e) {
         throw e
       }
+    },
+    async _emptyRoom (context, params) {
+      try {
+        const url = '/api/room/empty/' + params // room_id
+        let res = await axios.get(url)
+        return res
+      } catch (e) {
+        throw e
+      }
     }
   }
 }

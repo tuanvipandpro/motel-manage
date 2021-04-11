@@ -105,5 +105,37 @@ module.exports = {
         catch(e) {
             throw e
         }
+    },    
+    changeRentedFlg: async (id, isRent) => {
+        const query = {
+            text: 'UPDATE room ' 
+                + 'SET rented = $1 '
+                + 'WHERE id = $2',
+            values: [isRent, id]
+        }
+
+        try {
+            let result = await con.query(query)
+            return result.rowCount
+        }
+        catch(e) {
+            throw e
+        }
+    },    
+    emptyRoom: async (id) => {
+        const query = {
+            text: 'UPDATE customer_room ' 
+                + 'SET active = false '
+                + 'WHERE room_id = $1',
+            values: [id]
+        }
+
+        try {
+            let result = await con.query(query)
+            return result.rowCount
+        }
+        catch(e) {
+            throw e
+        }        
     }
 }
