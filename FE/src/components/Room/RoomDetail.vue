@@ -10,7 +10,6 @@
         <h1><i class="el-icon-s-platform"></i> ID: {{room.id}}</h1>
         <div style="margin-left: 0.3%">
           <p><strong>Số phòng </strong><el-tag type="info">{{room.rm_code}}</el-tag></p>
-          <!-- <p><strong>Quản lý:</strong> {{room.manager}}</p> -->
           <p><strong>Điện - Nước </strong> <el-tag type="warning">{{room.electric}} kWh</el-tag> - <el-tag>{{room.water}} m³</el-tag></p>
           <p><strong>Giá phòng:</strong> <el-tag type="info">{{new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(room.price)}}</el-tag></p>
           <p><strong>Dịch vụ:</strong> <el-tag type="info">{{new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(room.social)}}</el-tag></p>
